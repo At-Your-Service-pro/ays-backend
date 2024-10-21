@@ -11,4 +11,19 @@ export class UsersController {
     return this.userService.login(email, password);
   }
 
+  @Post('request-otp')
+  async requestOtp(@Body('email') email: string) {
+    return this.userService.requestOTP(email);
+  }
+
+  @Post('verify-otp')
+  async verifyOtp(@Body() body: { email: string; otp: string }) {
+    const isValid = await this.userService.verifyOTP(body.email, body.otp);
+    if (isValid) {
+      return { message: 'OTP verified successfully!' };
+    } else {
+      return { message: 'Invalid or expired OTP.' };
+    }
+  }
+
 }
