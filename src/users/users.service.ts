@@ -48,14 +48,66 @@ export class UserService {
 
   }
 
+   // Update user email and password
+   async updateUser(email: string,newPassword: string) {
+    // Fetch the user by the current email
+    const user = await this.knex('users').where({ email }).first();
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    // Hash the new password
+    const hashedPassword = await bcryptjs.hash(newPassword, 10);
+
+    // Update the user's email and password
+    await this.knex('users')
+      .where({ email })
+      .update({
+        password: hashedPassword,
+      });
+
+    return { message: 'User email and password updated successfully' };
+  }
+
   async requestOTP(email: string) {
     const otp = generateOTP();
     await sendOTP(email, otp);
     storeOTP(email, otp);
   }
 
+  async resendOTP(email: string) {
+    // Check if an OTP already exists for this user
+    const existingOtp = getStoredOTP(email);
+  
+    if (existingOtp) {
+      // Delete the existing OTP
+      deleteStoredOTP(email);
+    }
+
+    // Generate a new OTP
+    const newOtp = generateOTP();
+  
+    // Send the new OTP to the user
+    await sendOTP(email, newOtp);
+  
+    // Store the new OTP for this user
+    storeOTP(email, newOtp);
+  }
+
   async verifyOTP(email: string, otp: string) {
-    return verifyOTP(email, otp);
+    const isOTpVerified = await verifyOTP(email, otp);
+    if(isOTpVerified) {
+      const payload = { email: email}; // You can include additional fields in the payload
+      const token = this.jwtService.sign(payload);
+
+      return {
+        statusCode: 200,
+        message: 'Login successful',
+        token: token, // Return the token to the client
+      };
+    } else {
+      return {statusCode: 401, message: "OTP verification failed"};
+    }
   }
   
 }
@@ -87,7 +139,7 @@ const generateOTP = () => {
 const otps = new Map<string, { otp: string; expires: Date }>();
 
 const storeOTP = (email: string, otp: string) => {
-  const expires = new Date(Date.now() + 10 * 60 * 1000); // OTP valid for 10 minutes
+  const expires = new Date(Date.now() + 1 * 60 * 1000); // OTP valid for 10 minutes
   otps.set(email, { otp, expires });
 };
 
@@ -97,6 +149,13 @@ const getStoredOTP = (email: string) => {
     return stored.otp;
   }
   return null;
+};
+
+const deleteStoredOTP = (email: string) => {
+  // Assuming 'otps' is a Map object that stores OTPs with email as the key
+  if (otps.has(email)) {
+    otps.delete(email);
+  }
 };
 
 const verifyOTP = (email: string, inputOtp: string) => {
