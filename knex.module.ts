@@ -8,7 +8,7 @@ import { ConfigService } from '@nestjs/config';
     {
       provide: 'KnexConnection',
       useFactory: async (configService: ConfigService) => {
-        const knexConfig = require('../knexfile');
+        const knexConfig = require('./knexfile');
         const knex = Knex(knexConfig);
         return knex;
       },
