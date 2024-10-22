@@ -109,6 +109,13 @@ export class UserService {
       return {statusCode: 401, message: "OTP verification failed"};
     }
   }
+
+  async loginWithGoogle(user: any) {
+    const payload = { email: user.email};
+    return {
+      token: this.jwtService.sign(payload),
+    };
+  }
   
 }
 
@@ -168,5 +175,4 @@ const verifyOTP = (email: string, inputOtp: string) => {
   }
   return false;
 };
-
 

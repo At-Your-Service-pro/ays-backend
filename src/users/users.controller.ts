@@ -1,5 +1,6 @@
 import { Controller, Post, Body, UseGuards,Patch } from '@nestjs/common';
 import { UserService } from './users.service';
+import { Request } from 'express';
 
 @Controller('users')
 export class UsersController {
@@ -34,5 +35,7 @@ export class UsersController {
   async verifyOtp(@Body() body: { email: string; otp: string }) {
     return await this.userService.verifyOTP(body.email, body.otp);
   }
+
+  
 
 }
