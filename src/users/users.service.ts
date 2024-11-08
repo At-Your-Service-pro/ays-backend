@@ -18,13 +18,18 @@ export class UserService {
   // Create a new user
   async createUser(firstname: string,lastname:string, email: string, password: string,phonenumber: string) {
     const hasedpassword  = await bcryptjs.hash(password, 10);
-    return await this.knex('users').insert({
+     await this.knex('users').insert({
       firstname,
       lastname,
       email,
       password: hasedpassword,
       phonenumber
     });
+
+    return {
+      statusCode: 201,
+      message: 'User created successfully'
+    }
   }
 
   async login(email:string,password:string){
@@ -36,6 +41,10 @@ export class UserService {
        // Generate the JWT token
        const payload = { email: user.email}; // You can include additional fields in the payload
        const token = this.jwtService.sign(payload);
+
+       await this.knex('users')
+       .where({ id: user.id }) // Select the user by ID
+       .update({ [token]: token }); 
  
        return {
          statusCode: 200,
@@ -50,7 +59,13 @@ export class UserService {
   }
 
    // Update user email and password
-   async updateUser(email: string,newPassword: string) {
+   async updateUser(
+      email: string,
+      newPassword: string,
+      firstname: string,
+      lastname: string,
+      phonenumber: string
+    ) {
     // Fetch the user by the current email
     const user = await this.knex('users').where({ email }).first();
     if (!user) {
@@ -64,6 +79,10 @@ export class UserService {
     await this.knex('users')
       .where({ email })
       .update({
+        email,
+        firstname,
+        lastname,
+        phonenumber,
         password: hashedPassword,
       });
 

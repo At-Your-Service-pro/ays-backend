@@ -28,8 +28,11 @@ export class UsersController {
   async updateUser(
     @Body('email') email: string,
     @Body('newPassword') newPassword: string,
+    @Body('firstname') firstname: string,
+    @Body('lastname') lastname: string,
+    @Body('phonenumber') phonenumber: string,
   ) {
-    return this.userService.updateUser(email, newPassword);
+    return this.userService.updateUser(email, newPassword,firstname,lastname,phonenumber);
   }
 
   @Post('request-otp')
@@ -47,7 +50,4 @@ export class UsersController {
   async verifyOtp(@Body() body: { email: string; otp: string }) {
     return await this.userService.verifyOTP(body.email, body.otp);
   }
-
-  
-
 }
