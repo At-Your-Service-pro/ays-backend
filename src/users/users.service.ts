@@ -16,10 +16,11 @@ export class UserService {
   }
 
   // Create a new user
-  async createUser(username: string, email: string, password: string,phonenumber: string) {
+  async createUser(firstname: string,lastname:string, email: string, password: string,phonenumber: string) {
     const hasedpassword  = await bcryptjs.hash(password, 10);
     return await this.knex('users').insert({
-      username,
+      firstname,
+      lastname,
       email,
       password: hasedpassword,
       phonenumber

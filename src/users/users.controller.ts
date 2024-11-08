@@ -6,6 +6,18 @@ import { Request } from 'express';
 export class UsersController {
   constructor(private userService: UserService) {}
 
+  @Post('signup')
+  async signup(@Body() signupDto: { firstname:string,lastname:string,phonenumber:string,email: string; password: string }) {
+    const { email, password,firstname,lastname,phonenumber } = signupDto;
+    return await this.userService.createUser(
+      firstname,
+      lastname,
+      phonenumber,
+      email, 
+      password
+    );
+  }
+
   @Post('login')
   async loginUser(@Body() loginDto: { email: string; password: string }) {
     const { email, password } = loginDto;
