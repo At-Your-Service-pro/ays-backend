@@ -12,13 +12,13 @@ export class UserService {
 
   // Fetch all users
   async getAllUsers() {
-    return await this.knex('customers').select('*');
+    return await this.knex('users').select('*');
   }
 
   // Create a new user
   async createUser(firstname: string,lastname:string, email: string, password: string,phonenumber: string) {
     const hasedpassword  = await bcryptjs.hash(password, 10);
-     await this.knex('customers').insert({
+     await this.knex('users').insert({
       firstname,
       lastname,
       email,
@@ -33,7 +33,7 @@ export class UserService {
   }
 
   async login(email:string,password:string){
-    const user = await this.knex('customers').where({email}).first();
+    const user = await this.knex('users').where({email}).first();
     if(!user) return {statusCode: 401,message: "User no found"};
 
     const match = await bcryptjs.compare(password, user.password);
@@ -42,7 +42,7 @@ export class UserService {
        const payload = { email: user.email}; // You can include additional fields in the payload
        const token = this.jwtService.sign(payload);
 
-       await this.knex('customers')
+       await this.knex('users')
        .where({ id: user.id }) // Select the user by ID
        .update({ token: token }); 
  
@@ -60,29 +60,33 @@ export class UserService {
 
    // Update user email and password
    async updateUser(
-      email: string,
-      newPassword: string,
-      firstname: string,
-      lastname: string,
-      phonenumber: string
+     email: string,
+     newPassword: string,
+     firstname: string, 
+     lastname: string,
+     phonenumber: string
     ) {
-    // Fetch the user by the current email
-    const user = await this.knex('customers').where({ email }).first();
-    if (!user) {
-      throw new Error('User not found');
-    }
+      if (!email) {
+        throw new Error('Email is required to update user');
+      }
+    
+      const user = await this.knex('users').where({ email }).first();
+      if (!user) {
+        throw new Error('User not found');   
+      }
+    
 
     // Hash the new password
     const hashedPassword = await bcryptjs.hash(newPassword, 10);
 
     // Update the user's email and password
-    await this.knex('customers')
+    await this.knex('users')
       .where({ email })
       .update({
-        firstname,
+        firstname, 
         lastname,
         email,
-        password: hashedPassword,
+        password: hashedPassword,  
         phonenumber
       });
 

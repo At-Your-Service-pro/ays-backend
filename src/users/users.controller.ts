@@ -9,7 +9,7 @@ export class UsersController {
   @Post('signup')
   async signup(@Body() signupDto: { firstname:string,lastname:string,phonenumber:string,email: string; password: string }) {
     const { email, password,firstname,lastname,phonenumber } = signupDto;
-    return await this.userService.createUser(
+    return await this.userService.createUser( 
       firstname,
       lastname,
       email, 
