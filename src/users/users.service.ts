@@ -79,11 +79,11 @@ export class UserService {
     await this.knex('customers')
       .where({ email })
       .update({
-        email,
         firstname,
         lastname,
-        phonenumber,
+        email,
         password: hashedPassword,
+        phonenumber
       });
 
     return { message: 'User email and password updated successfully' };
