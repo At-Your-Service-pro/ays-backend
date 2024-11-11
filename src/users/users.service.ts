@@ -12,28 +12,28 @@ export class UserService {
 
   // Fetch all users
   async getAllUsers() {
-    return await this.knex('users').select('*');
+    return await this.knex('customers').select('*');
   }
 
   // Create a new user
   async createUser(firstname: string,lastname:string, email: string, password: string,phonenumber: string) {
     const hasedpassword  = await bcryptjs.hash(password, 10);
-     await this.knex('users').insert({
+     await this.knex('customers').insert({
       firstname,
       lastname,
       email,
-      password: hasedpassword,
+      password: hasedpassword,    
       phonenumber
     });
 
     return {
       statusCode: 201,
       message: 'User created successfully'
-    }
+    } 
   }
 
   async login(email:string,password:string){
-    const user = await this.knex('users').where({email}).first();
+    const user = await this.knex('customers').where({email}).first();
     if(!user) return {statusCode: 401,message: "User no found"};
 
     const match = await bcryptjs.compare(password, user.password);
@@ -42,9 +42,9 @@ export class UserService {
        const payload = { email: user.email}; // You can include additional fields in the payload
        const token = this.jwtService.sign(payload);
 
-       await this.knex('users')
+       await this.knex('customers')
        .where({ id: user.id }) // Select the user by ID
-       .update({ [token]: token }); 
+       .update({ token: token }); 
  
        return {
          statusCode: 200,
@@ -67,7 +67,7 @@ export class UserService {
       phonenumber: string
     ) {
     // Fetch the user by the current email
-    const user = await this.knex('users').where({ email }).first();
+    const user = await this.knex('customers').where({ email }).first();
     if (!user) {
       throw new Error('User not found');
     }
@@ -76,7 +76,7 @@ export class UserService {
     const hashedPassword = await bcryptjs.hash(newPassword, 10);
 
     // Update the user's email and password
-    await this.knex('users')
+    await this.knex('customers')
       .where({ email })
       .update({
         email,

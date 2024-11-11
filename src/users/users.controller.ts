@@ -12,9 +12,9 @@ export class UsersController {
     return await this.userService.createUser(
       firstname,
       lastname,
-      phonenumber,
       email, 
-      password
+      password,
+      phonenumber 
     );
   }
 
