@@ -27,12 +27,12 @@ export class UsersController {
   @Patch('update')
   async updateUser(
     @Body('email') email: string,
-    @Body('newPassword') newPassword: string,
+    @Body('password') password: string,
     @Body('firstname') firstname: string,
     @Body('lastname') lastname: string,
     @Body('phonenumber') phonenumber: string,
   ) {
-    return this.userService.updateUser(email, newPassword,firstname,lastname,phonenumber);
+    return this.userService.updateUser(email, password,firstname,lastname,phonenumber);
   }
 
   @Post('request-otp')

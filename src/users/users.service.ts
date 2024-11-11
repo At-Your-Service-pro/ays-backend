@@ -61,7 +61,7 @@ export class UserService {
    // Update user email and password
    async updateUser(
      email: string,
-     newPassword: string,
+     password: string,
      firstname: string, 
      lastname: string,
      phonenumber: string
@@ -77,7 +77,7 @@ export class UserService {
     
 
     // Hash the new password
-    const hashedPassword = await bcryptjs.hash(newPassword, 10);
+    const hashedPassword = await bcryptjs.hash(password, 10);
 
     // Update the user's email and password
     await this.knex('users')
@@ -90,7 +90,7 @@ export class UserService {
         phonenumber
       });
 
-    return { message: 'User email and password updated successfully' };
+    return { message: 'User profile updated successfully' };
   }
 
   async requestOTP(email: string) {
