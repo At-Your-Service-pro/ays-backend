@@ -12,7 +12,7 @@ export class UserService {
 
   // Fetch all users
   async getAllUsers() {
-    return await this.knex('users').select('*');
+    return await this.knex('users').select('*'); 
   }
 
   // Create a new user
@@ -142,13 +142,14 @@ export class UserService {
   }
   
 }
-
+ 
 const sendOTP = async (email: string, otp: string) => {
+  console.log(`email: ${process.env.EMAIL_USER}`);
   const transporter = nodemailer.createTransport({
     service: 'gmail', // Use your email provider
     auth: {
-      user: process.env.EMAIL_USER, // Your email
-      pass: process.env.EMAIL_PASS, // Your email password or app password
+      user: "fynn.emmanuel100@gmail.com", // Your email
+      pass: "Emoji@500", // Your email password or app password 
     },
   });
 
@@ -163,7 +164,7 @@ const sendOTP = async (email: string, otp: string) => {
 };
 
 const generateOTP = () => {
-  const otp = otpGenerator.generate(5, { upperCase: false, specialChars: false });
+  const otp = otpGenerator.generate(5, { upperCaseAlphabets: false, specialChars: false });
   return otp;
 }
 
