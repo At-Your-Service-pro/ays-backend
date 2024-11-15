@@ -30,7 +30,7 @@ export class UsersController {
     @Body('password') password: string,
     @Body('firstname') firstname: string,
     @Body('lastname') lastname: string,
-    @Body('phonenumber') phonenumber: string,
+    @Body('phonenumber') phonenumber: string
   ) {
     return this.userService.updateUser(email, password,firstname,lastname,phonenumber);
   }
@@ -40,11 +40,11 @@ export class UsersController {
     return await this.userService.requestOTP(email);
   }
 
-  @Post('resend-otp')
-  async resendOtp(@Body('email') email: string) {
-    await this.userService.resendOTP(email);
-    return { message: 'OTP has been resent to your email.' };
-  }
+  // @Post('resend-otp')
+  // async resendOtp(@Body('email') email: string) {
+  //   await this.userService.resendOTP(email);
+  //   return { message: 'OTP has been resent to your email.' };
+  // }
 
   @Post('verify-otp')
   async verifyOtp(@Body() body: { email: string; otp: string }) {

@@ -101,24 +101,24 @@ export class UserService {
     storeOTP(email, otp);
   }
 
-  async resendOTP(email: string) {
-    // Check if an OTP already exists for this user
-    const existingOtp = getStoredOTP(email);
+  // async resendOTP(email: string) {
+  //   // Check if an OTP already exists for this user
+  //   const existingOtp = getStoredOTP(email);
   
-    if (existingOtp) {
-      // Delete the existing OTP
-      deleteStoredOTP(email);
-    }
+  //   if (existingOtp) {
+  //     // Delete the existing OTP
+  //     deleteStoredOTP(email);
+  //   }
 
-    // Generate a new OTP
-    const newOtp = generateOTP();
+  //   // Generate a new OTP
+  //   const newOtp = generateOTP();
   
-    // Send the new OTP to the user
-    await sendOTP(email, newOtp);
+  //   // Send the new OTP to the user
+  //   await sendOTP(email, newOtp);
   
-    // Store the new OTP for this user
-    storeOTP(email, newOtp);
-  }
+  //   // Store the new OTP for this user
+  //   storeOTP(email, newOtp);
+  // }
 
   async verifyOTP(email: string, otp: string) {
     const isOTpVerified = await verifyoTP(email, otp);
@@ -126,10 +126,16 @@ export class UserService {
       const payload = { email: email}; // You can include additional fields in the payload
       const token = this.jwtService.sign(payload);
 
+      const user = await this.knex('users').where({email}).first();
+      if(user){
+        await this.knex('users')
+          .where({email})
+          .update({token});
+      }
+
       return {
         statusCode: 200,
-        message: 'Login successful',
-        token: token, // Return the token to the client
+        message: 'Login successful'
       };
     } else {
       return {statusCode: 401, message: "OTP verification failed"};
@@ -195,7 +201,6 @@ const deleteStoredOTP = (email: string) => {
 };
 
 const verifyoTP = (email: string, inputOtp: string) => {
-
   const storedOtp = getStoredOTP(email);
   console.log(`storedOtp: ${storedOtp}`);
   if (storedOtp === inputOtp) {
