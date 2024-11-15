@@ -96,6 +96,7 @@ export class UserService {
 
   async requestOTP(email: string) {
     const otp = generateOTP();
+    console.log(`otp generated: ${otp}`);
     await sendOTP(email, otp);
     storeOTP(email, otp);
   }
@@ -120,7 +121,7 @@ export class UserService {
   }
 
   async verifyOTP(email: string, otp: string) {
-    const isOTpVerified = await verifyOTP(email, otp);
+    const isOTpVerified = await verifyoTP(email, otp);
     if(isOTpVerified) {
       const payload = { email: email}; // You can include additional fields in the payload
       const token = this.jwtService.sign(payload);
@@ -165,19 +166,20 @@ const sendOTP = async (email: string, otp: string) => {
 };
 
 const generateOTP = () => {
-  const otp = otpGenerator.generate(5, { upperCaseAlphabets: false, specialChars: false });
-  return otp;
+  const otp = Math.floor(10000 + Math.random() * 90000); // Generates a 5-digit number
+  return otp.toString();
 }
 
 const otps = new Map<string, { otp: string; expires: Date }>();
 
 const storeOTP = (email: string, otp: string) => {
   const expires = new Date(Date.now() + 1 * 60 * 1000); // OTP valid for 10 minutes
-  otps.set(email, { otp, expires });
+  otps.set(email.toLowerCase(), { otp, expires });
 };
 
 const getStoredOTP = (email: string) => {
   const stored = otps.get(email);
+  console.log(`stored: ${stored}`);
   if (stored && stored.expires > new Date()) {
     return stored.otp;
   }
@@ -191,8 +193,9 @@ const deleteStoredOTP = (email: string) => {
   }
 };
 
-const verifyOTP = (email: string, inputOtp: string) => {
+const verifyoTP = (email: string, inputOtp: string) => {
   const storedOtp = getStoredOTP(email);
+  console.log(`storedOtp: ${storedOtp}`);
   if (storedOtp === inputOtp) {
     // OTP is valid
     otps.delete(email); // Remove OTP after verification
