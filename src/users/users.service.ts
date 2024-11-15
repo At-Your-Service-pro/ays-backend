@@ -173,13 +173,14 @@ const generateOTP = () => {
 const otps = new Map<string, { otp: string; expires: Date }>();
 
 const storeOTP = (email: string, otp: string) => {
-  const expires = new Date(Date.now() + 1 * 60 * 1000); // OTP valid for 10 minutes
+  const expires = new Date(Date.now() + 1 * 60 * 1000); // OTP valid for 1 minutes
   otps.set(email.toLowerCase(), { otp, expires });
+  console.log(`Stored OTP for ${email}: ${JSON.stringify(otps.get(email))}`);
 };
 
 const getStoredOTP = (email: string) => {
   const stored = otps.get(email);
-  console.log(`stored: ${stored}`);
+  console.log(`stored: ${JSON.stringify(stored)}`);
   if (stored && stored.expires > new Date()) {
     return stored.otp;
   }
@@ -194,6 +195,7 @@ const deleteStoredOTP = (email: string) => {
 };
 
 const verifyoTP = (email: string, inputOtp: string) => {
+
   const storedOtp = getStoredOTP(email);
   console.log(`storedOtp: ${storedOtp}`);
   if (storedOtp === inputOtp) {
