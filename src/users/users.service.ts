@@ -2,7 +2,8 @@ import { Injectable, Inject } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcryptjs from 'bcryptjs';
 import * as otpGenerator from 'otp-generator';
-import nodemailer from 'nodemailer';
+import * as nodemailer from 'nodemailer';
+
 import {Knex} from 'knex';
 
 @Injectable()
