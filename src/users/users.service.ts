@@ -135,7 +135,8 @@ export class UserService {
 
       return {
         statusCode: 200,
-        message: 'Login successful'
+        message: 'Login successful',
+        token: token
       };
     } else {
       return {statusCode: 401, message: "OTP verification failed"};
