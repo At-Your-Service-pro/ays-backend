@@ -18,6 +18,22 @@ export class UserService {
 
   // Create a new user
   async createUser(firstname: string,lastname:string, email: string, password: string,phonenumber: string) {
+    const checkIfEmailExists = await this.knex('users').where({email}).first();
+    if(checkIfEmailExists){
+      return {
+        statusCode: 409,
+        message: 'User already exists'
+      }
+    }
+
+    const checkIfNumberExists = await this.knex('users').where({phonenumber}).first();
+    if(checkIfNumberExists){
+      return {
+        statusCode: 409,
+        message: 'Phone number already exists'
+      }
+    }
+    
     const hasedpassword  = await bcryptjs.hash(password, 10);
      await this.knex('users').insert({
       firstname,
@@ -68,12 +84,16 @@ export class UserService {
      phonenumber: string
     ) {
       if (!email) {
-        throw new Error('Email is required to update user');
+       return {
+        message: "Email is required"
+       }
       }
     
       const user = await this.knex('users').where({ email }).first();
       if (!user) {
-        throw new Error('User not found');   
+        return {
+          message: "User not found"
+        } 
       }
     
 
@@ -96,9 +116,13 @@ export class UserService {
 
   async requestOTP(email: string) {
     const otp = generateOTP();
-    console.log(`otp generated: ${otp}`);
     await sendOTP(email, otp);
     storeOTP(email, otp);
+
+    return {
+      statusCode: 200,
+      message: 'OTP sent successfully',
+    }
   }
 
   // async resendOTP(email: string) {
@@ -153,7 +177,6 @@ export class UserService {
 }
  
 const sendOTP = async (email: string, otp: string) => {
-  console.log(`email: ${process.env.EMAIL_USER}`);
   const transporter = nodemailer.createTransport({
     service: 'gmail', // Use your email provider
     auth: {
@@ -203,7 +226,6 @@ const deleteStoredOTP = (email: string) => {
 
 const verifyoTP = (email: string, inputOtp: string) => {
   const storedOtp = getStoredOTP(email);
-  console.log(`storedOtp: ${storedOtp}`);
   if (storedOtp === inputOtp) {
     // OTP is valid
     otps.delete(email); // Remove OTP after verification
