@@ -38,12 +38,13 @@ export class UserService {
     const checkIfEmailExists = await this.knex('users').where({email}).first();
     const checkIfPhoneNumberExists = await this.knex('users').where({phonenumber}).first();
     if(checkIfEmailExists || checkIfPhoneNumberExists) {
-      return {statusCode: 400, message: "User already exists"};
+      return {statusCode: 400, message: "User already exists",error: true};
     } 
     
     return {
       statusCode: 201,
-      message: 'User created successfully'
+      message: 'User created successfully',
+      error: false
     } 
   }
 
