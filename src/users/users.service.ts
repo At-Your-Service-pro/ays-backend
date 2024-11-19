@@ -1,7 +1,6 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcryptjs from 'bcryptjs';
-import * as otpGenerator from 'otp-generator';
 import * as nodemailer from 'nodemailer';
 
 import {Knex} from 'knex';
@@ -18,22 +17,7 @@ export class UserService {
 
   // Create a new user
   async createUser(firstname: string,lastname:string, email: string, password: string,phonenumber: string) {
-    const checkIfEmailExists = await this.knex('users').where({email}).first();
-    if(checkIfEmailExists){
-      return {
-        statusCode: 409,
-        message: 'User already exists'
-      }
-    }
 
-    const checkIfNumberExists = await this.knex('users').where({phonenumber}).first();
-    if(checkIfNumberExists){
-      return {
-        statusCode: 409,
-        message: 'Phone number already exists'
-      }
-    }
-    
     const hasedpassword  = await bcryptjs.hash(password, 10);
      await this.knex('users').insert({
       firstname,
@@ -43,6 +27,20 @@ export class UserService {
       phonenumber
     });
 
+    return {
+      statusCode: 201,
+      message: 'User created successfully'
+    } 
+  }
+
+  async verifyUser(firstname: string,lastname:string, email: string, password: string,phonenumber: string) {
+
+    const checkIfEmailExists = await this.knex('users').where({email}).first();
+    const checkIfPhoneNumberExists = await this.knex('users').where({phonenumber}).first();
+    if(checkIfEmailExists || checkIfPhoneNumberExists) {
+      return {statusCode: 400, message: "User already exists"};
+    } 
+    
     return {
       statusCode: 201,
       message: 'User created successfully'
