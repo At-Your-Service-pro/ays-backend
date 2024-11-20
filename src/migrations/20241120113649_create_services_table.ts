@@ -12,7 +12,7 @@ export async function up(knex: Knex): Promise<void> {
         table.text('description').notNullable();
         table.jsonb('images').defaultTo('[]'); // JSON array for images
         table.timestamps(true, true);
-        })
+    })
 }
 
 
