@@ -1,6 +1,6 @@
 import { Controller, Post, Body, UseGuards,Patch } from '@nestjs/common';
 import { UserService } from './users.service';
-import { Request } from 'express';
+import { JwtAuthGuard } from 'src/auth/auth.guard';
 
 @Controller('users')
 export class UsersController {
@@ -37,6 +37,7 @@ export class UsersController {
     return await this.userService.login(email, password);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Patch('update')
   async updateUser(
     @Body('email') email: string,
