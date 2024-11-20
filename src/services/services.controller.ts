@@ -7,10 +7,39 @@ export class ServiceController {
   constructor(private readonly serviceService: ServiceService) {}
 
   @UseGuards(JwtAuthGuard)
-  @Post('create-service')
-  async create(@Body() data: any) {
-    return this.serviceService.createService(data);
+  @Post('create')
+  async create(@Body() serviceDto: {
+    name: string,
+    location: string,
+    phonenumber: string,
+    address: string,
+    services_offered: {
+      service_name: string,
+      service_price: number, // Keep as number in the DTO
+    }[],
+    description: string,
+    images: string[],
+    category: string
+  }) {
+    const { name, location, phonenumber, address, services_offered, description, images } = serviceDto;
+  
+    // Convert service_price to string
+    const formattedServicesOffered = services_offered.map((service) => ({
+      ...service,
+      service_price: service.service_price.toString(),
+    }));
+  
+    return this.serviceService.createService(
+      name,
+      location,
+      phonenumber,
+      address,
+      formattedServicesOffered, // Pass formatted data
+      description,
+      images
+    );
   }
+  
 
   @UseGuards(JwtAuthGuard)
   @Get('get-services')
@@ -36,3 +65,5 @@ export class ServiceController {
     return this.serviceService.deleteService(id);
   }
 }
+
+
