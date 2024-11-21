@@ -18,17 +18,17 @@ export class UsersController {
     );
   }
 
-  @Post('verify-user')
-  async verifyUser(@Body() signupDto: { firstname:string,lastname:string,phonenumber:string,email: string; password: string }) {
-    const { email, password,firstname,lastname,phonenumber } = signupDto;
-    return await this.userService.verifyUser( 
-      firstname,
-      lastname,
-      email, 
-      password,
-      phonenumber 
-    );
-  }
+  // @Post('verify-user')
+  // async verifyUser(@Body() signupDto: { firstname:string,lastname:string,phonenumber:string,email: string; password: string }) {
+  //   const { email, password,firstname,lastname,phonenumber } = signupDto;
+  //   return await this.userService.verifyUser( 
+  //     firstname,
+  //     lastname,
+  //     email, 
+  //     password,
+  //     phonenumber 
+  //   );
+  // }
 
 
   @Post('login')

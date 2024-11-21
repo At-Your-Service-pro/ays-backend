@@ -17,35 +17,26 @@ export class UserService {
 
   // Create a new user
   async createUser(firstname: string,lastname:string, email: string, password: string,phonenumber: string) {
-
-    const hasedpassword  = await bcryptjs.hash(password, 10);
-     await this.knex('users').insert({
-      firstname,
-      lastname,
-      email,
-      password: hasedpassword,    
-      phonenumber
-    });
-
-    return {
-      statusCode: 201,
-      message: 'User created successfully'
-    } 
-  }
-
-  async verifyUser(firstname: string,lastname:string, email: string, password: string,phonenumber: string) {
-
     const checkIfEmailExists = await this.knex('users').where({email}).first();
     const checkIfPhoneNumberExists = await this.knex('users').where({phonenumber}).first();
     if(checkIfEmailExists || checkIfPhoneNumberExists) {
       return {statusCode: 400, message: "User already exists",error: true};
-    } 
-    
-    return {
-      statusCode: 201,
-      message: 'User created successfully',
-      error: false
-    } 
+    } else {
+      const hasedpassword  = await bcryptjs.hash(password, 10);
+       await this.knex('users').insert({
+        firstname,
+        lastname,
+        email,
+        password: hasedpassword,    
+        phonenumber
+      });
+  
+      return {
+        statusCode: 201,
+        message: 'User created successfully'
+      } 
+    }
+
   }
 
   async login(email:string,password:string){

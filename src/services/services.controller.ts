@@ -1,10 +1,10 @@
 import { Body, Controller, Delete, Get, Param, Post, Put,UseGuards } from '@nestjs/common';
-import { ServiceService } from './servicess.service';
+import { ServicesService } from './services.service';
 import { JwtAuthGuard } from 'src/auth/auth.guard';
 
 @Controller('services')
-export class ServiceController {
-  constructor(private readonly serviceService: ServiceService) {}
+export class ServicesController {
+  constructor(private readonly serviceService: ServicesService) {}
 
   @UseGuards(JwtAuthGuard)
   @Post('create')
@@ -66,5 +66,4 @@ export class ServiceController {
     return this.serviceService.deleteService(id);
   }
 }
-
 

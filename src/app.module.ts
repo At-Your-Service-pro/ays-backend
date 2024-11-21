@@ -5,7 +5,7 @@ import { KnexModule } from 'knex.module';
 import { UsersModule } from './users/users.module';
 import { ConfigModule } from '@nestjs/config';
 import { CategoryModule } from './category/category.module';
-import { ServicessModule } from './servicess/servicess.module';
+import { ServicesModule } from './services/services.module';
 
 @Module({
   imports: [
@@ -13,7 +13,7 @@ import { ServicessModule } from './servicess/servicess.module';
     UsersModule,
     ConfigModule.forRoot({ isGlobal: true }),
     CategoryModule,
-    ServicessModule
+    ServicesModule
   ],
   controllers: [AppController],
   providers: [AppService],

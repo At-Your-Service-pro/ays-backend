@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { Knex } from 'knex';
 
 @Injectable()
-export class ServiceService {
+export class ServicesService {
   constructor(@Inject('KnexConnection') private readonly knex: Knex) {}
 
   async createService(
