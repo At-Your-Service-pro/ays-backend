@@ -1,13 +1,14 @@
 import { Controller, Post, Body, UseGuards,Patch } from '@nestjs/common';
 import { UserService } from './users.service';
 import { JwtAuthGuard } from 'src/auth/auth.guard';
+import { userDto,loginDto } from './users.dto';
 
 @Controller('users')
 export class UsersController {
   constructor(private userService: UserService) {}
 
   @Post('signup')
-  async signup(@Body() signupDto: { firstname:string,lastname:string,phonenumber:string,email: string; password: string }) {
+  async signup(@Body() signupDto: userDto) {
     const { email, password,firstname,lastname,phonenumber } = signupDto;
     return await this.userService.createUser( 
       firstname,
@@ -32,20 +33,15 @@ export class UsersController {
 
 
   @Post('login')
-  async loginUser(@Body() loginDto: { email: string; password: string }) {
-    const { email, password } = loginDto;
+  async loginUser(@Body() loginDTO: loginDto) {
+    const { email, password } = loginDTO;
     return await this.userService.login(email, password);
   }
 
   @UseGuards(JwtAuthGuard)
   @Patch('update')
-  async updateUser(
-    @Body('email') email: string,
-    @Body('password') password: string,
-    @Body('firstname') firstname: string,
-    @Body('lastname') lastname: string,
-    @Body('phonenumber') phonenumber: string
-  ) {
+  async updateUser(@Body() userDTO: userDto) {
+    const {email,password,firstname,lastname,phonenumber} = userDTO;
     return this.userService.updateUser(email, password,firstname,lastname,phonenumber);
   }
 
