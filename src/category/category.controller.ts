@@ -13,4 +13,10 @@ export class CategoryController {
         return this.categoryService.create(createCategoryDto);
     }
 
+    @UseGuards(JwtAuthGuard)
+    @Get()
+    async getAllCategories() {
+        return this.categoryService.getAll();
+    }
+
 }
