@@ -1,6 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post, Put,UseGuards } from '@nestjs/common';
 import { ServicesService } from './services.service';
 import { JwtAuthGuard } from 'src/auth/auth.guard';
+import { serviceDto } from './services.dto';
 
 @Controller('services')
 export class ServicesController {
@@ -8,20 +9,8 @@ export class ServicesController {
 
   @UseGuards(JwtAuthGuard)
   @Post('create')
-  async create(@Body() serviceDto: {
-    name: string,
-    location: string,
-    phonenumber: string,
-    address: string,
-    services_offered: {
-      service_name: string,
-      service_price: number, // Keep as number in the DTO
-    }[],
-    description: string,
-    images: string[],
-    category_id: number
-  }) {
-    const { name, location, phonenumber, address, services_offered, description, images,category_id } = serviceDto;
+  async create(@Body() serviceDto: serviceDto) {
+    const { name, location, phonenumber, address, services_offered, description, images,category_id,user_id,profile_image } = serviceDto;
   
     // Convert service_price to string
     const formattedServicesOffered = services_offered.map((service) => ({
@@ -37,7 +26,9 @@ export class ServicesController {
       formattedServicesOffered, // Pass formatted data
       description,
       images,
-      category_id
+      category_id,
+      user_id,
+      profile_image
     );
   }
   

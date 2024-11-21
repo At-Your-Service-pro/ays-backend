@@ -13,7 +13,9 @@ export class ServicesService {
     services_offered: { service_name: string; service_price: string }[],
     description: string,
     images: string[],
-    category_id: number
+    category_id: number,
+    user_id: number,
+    profile_image: string
   ) {
     return this.knex('services')
       .insert({
@@ -24,7 +26,10 @@ export class ServicesService {
         services_offered: JSON.stringify(services_offered), // Convert to JSON string for storage in a JSONB column
         description,
         images: JSON.stringify(images), // Convert to JSON string for storage
-        category_id
+        category_id,
+        user_id,
+        profile_image
+
       })
       .returning('*');
   }

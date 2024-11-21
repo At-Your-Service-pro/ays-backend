@@ -16,13 +16,13 @@ export class CategoryController {
     @UseGuards(JwtAuthGuard)
     @Get()
     async getAllCategories() {
-        return this.categoryService.getAll();
+        return this.categoryService.getAllCategories();
     }
 
     @UseGuards(JwtAuthGuard)
     @Get(':id')
     async getCategory(@Param('id') id: number) {
-        return this.categoryService.get(id);
+        return this.categoryService.getCategory(id);
     }
 
 }
