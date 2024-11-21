@@ -16,13 +16,13 @@ export class CategoryService {
         }
     }
 
-    async getAll() {
+    async getAllCategories() {
         const categories = await this.knex('category').select('*');
         if(!categories) return {statusCode: 404, message: 'Categories not found'};
         return {statusCode: 200, data: categories};
     }
 
-    async get(id: string) {
+    async getCategory(id: number) {
         const category = await this.knex('category').where({id}).first();
         return {
             statusCode: 200,

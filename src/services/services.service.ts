@@ -31,7 +31,10 @@ export class ServicesService {
   
 
   async getAllServices() {
-    return this.knex('services').select('*');
+    return this.knex('services')
+                  .select('*')
+                  .orderBy('created_at', 'desc') // Order by the most recent entries
+                  .limit(5);
   }
 
   async getServiceById(id: number) {

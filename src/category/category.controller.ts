@@ -19,4 +19,10 @@ export class CategoryController {
         return this.categoryService.getAll();
     }
 
+    @UseGuards(JwtAuthGuard)
+    @Get(':id')
+    async getCategory(@Param('id') id: number) {
+        return this.categoryService.get(id);
+    }
+
 }
