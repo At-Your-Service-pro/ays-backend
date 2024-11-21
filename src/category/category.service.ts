@@ -8,7 +8,7 @@ export class CategoryService {
 
     async create(data: categoryDto) {
         const {name,description} = data;
-        await this.knex('categories').insert({name, description});
+        await this.knex('category').insert({name, description});
 
         return {
             statusCode: 201,
@@ -17,8 +17,16 @@ export class CategoryService {
     }
 
     async getAll() {
-        const categories = await this.knex('categories').select('*');
+        const categories = await this.knex('category').select('*');
         if(!categories) return {statusCode: 404, message: 'Categories not found'};
         return {statusCode: 200, data: categories};
+    }
+
+    async get(id: string) {
+        const category = await this.knex('category').where({id}).first();
+        return {
+            statusCode: 200,
+            data: category
+        }
     }
 }
