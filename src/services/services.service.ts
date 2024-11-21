@@ -41,6 +41,10 @@ export class ServicesService {
     return this.knex('services').where({ id }).first();
   }
 
+  async getServicesByCategory(categoryId: number) {
+    return this.knex('services').where({ category_id: categoryId });
+  }
+
   async updateService(id: number, data: any) {
     return this.knex('services').where({ id }).update(data).returning('*');
   }

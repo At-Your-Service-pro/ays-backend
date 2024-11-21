@@ -55,6 +55,12 @@ export class ServicesController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @Get('get-services-by-category/:categoryId')
+  async getServicesByCategory(@Param('categoryId') categoryId: number) {
+    return this.serviceService.getServicesByCategory(categoryId);
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Put(':id')
   async update(@Param('id') id: number, @Body() data: any) {
     return this.serviceService.updateService(id, data);
