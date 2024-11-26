@@ -15,27 +15,30 @@ export class UserService {
     return await this.knex('users').select('*'); 
   }
 
-  // Create a new user
-  async createUser(firstname: string,lastname:string, email: string, password: string,phonenumber: string) {
+  async verifyUser(firstname:string,lastname:string,email:string,password:string,phonenumber:string){
     const checkIfEmailExists = await this.knex('users').where({email}).first();
     const checkIfPhoneNumberExists = await this.knex('users').where({phonenumber}).first();
     if(checkIfEmailExists || checkIfPhoneNumberExists) {
-      return {statusCode: 400, message: "User already exists",error: true};
-    } else {
-      const hasedpassword  = await bcryptjs.hash(password, 10);
-       await this.knex('users').insert({
-        firstname,
-        lastname,
-        email,
-        password: hasedpassword,    
-        phonenumber
-      });
-  
-      return {
-        statusCode: 201,
-        message: 'User created successfully'
-      } 
+      return {statusCode: 400, message: "User already exists"};
     }
+  }
+
+  // Create a new user
+  async createUser(firstname: string,lastname:string, email: string, password: string,phonenumber: string) {
+   
+    const hasedpassword  = await bcryptjs.hash(password, 10);
+    await this.knex('users').insert({
+     firstname,
+     lastname,
+     email,
+     password: hasedpassword,    
+     phonenumber
+   });
+
+   return {
+     statusCode: 201,
+     message: 'User created successfully'
+   } 
 
   }
 
