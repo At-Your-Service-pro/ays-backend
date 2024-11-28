@@ -47,7 +47,7 @@ export class UsersController {
 
   @Post('request-otp')
   async requestOtp(@Body('email') email: string) {
-    return await this.userService.requestOTP(email);
+    return await this.userService.requestOTP(email); 
   }
 
   // @Post('resend-otp')

@@ -20,6 +20,11 @@ export class UserService {
     const checkIfPhoneNumberExists = await this.knex('users').where({phonenumber}).first();
     if(checkIfEmailExists || checkIfPhoneNumberExists) {
       return {statusCode: 400, message: "User already exists"};
+    } else {
+      return {
+        statusCode: 201,
+        message: "User verified successfully"
+      }
     }
   }
 
