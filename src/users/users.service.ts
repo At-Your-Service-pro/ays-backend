@@ -46,7 +46,7 @@ export class UserService {
       } 
     }catch(err){
       return {
-        message: err,
+        message: "failed to fetch",
         statusCode: 400
       }
     }
