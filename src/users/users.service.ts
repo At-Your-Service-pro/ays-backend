@@ -30,21 +30,27 @@ export class UserService {
 
   // Create a new user
   async createUser(firstname: string,lastname:string, email: string, password: string,phonenumber: string) {
+    try {
+      const hasedpassword  = await bcryptjs.hash(password, 10);
+        await this.knex('users').insert({
+        firstname,
+        lastname,
+        email,
+        password: hasedpassword,    
+        phonenumber
+      });
+
+      return {
+        statusCode: 201,
+        message: 'User created successfully'
+      } 
+    }catch(err){
+      return {
+        message: err,
+        statusCode: 400
+      }
+    }
    
-    const hasedpassword  = await bcryptjs.hash(password, 10);
-    await this.knex('users').insert({
-     firstname,
-     lastname,
-     email,
-     password: hasedpassword,    
-     phonenumber
-   });
-
-   return {
-     statusCode: 201,
-     message: 'User created successfully'
-   } 
-
   }
 
   async login(email:string,password:string){
@@ -168,7 +174,7 @@ export class UserService {
   async loginWithGoogle(user: any) {
     const payload = { email: user.email};
     return {
-      token: this.jwtService.sign(payload),
+      token: this.jwtService.sign(payload)
     };
   }
   
