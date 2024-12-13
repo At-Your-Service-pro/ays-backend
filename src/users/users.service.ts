@@ -50,7 +50,6 @@ export class UserService {
         statusCode: 400
       }
     }
-   
   }
 
   async login(email:string,password:string){
@@ -116,6 +115,16 @@ export class UserService {
       });
 
     return { message: 'User profile updated successfully' };
+  }
+
+  async getUser(email:string){
+    const user = await this.knex('users').where({ email }).first();
+    if(!user) return {statusCode: 404, message: "User not found"};
+    return {
+      statusCode: 200,
+      message: "User found",
+      data: user
+    }
   }
 
   async requestOTP(email: string) {

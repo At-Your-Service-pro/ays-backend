@@ -60,4 +60,9 @@ export class UsersController {
   async verifyOtp(@Body() body: { email: string; otp: string }) {
     return await this.userService.verifyOTP(body.email, body.otp);
   }
+
+  @Post('get-user')
+  async getUser(@Body() body: {email: string}){
+    return await this.userService.getUser(body.email);
+  }
 }

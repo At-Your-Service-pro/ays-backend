@@ -10,7 +10,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET, // Get from Google Developer Console
       callbackURL: 'http://localhost:3000/auth/google/callback', // URL for callback
       scope: ['email', 'profile'],
-    });
+    }); 
   }
 
   // This function will be called when Google authenticates a user
