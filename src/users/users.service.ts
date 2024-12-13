@@ -118,12 +118,19 @@ export class UserService {
   }
 
   async getUser(email:string){
-    const user = await this.knex('users').where({ email }).first();
-    if(!user) return {statusCode: 404, message: "User not found"};
-    return {
-      statusCode: 200,
-      message: "User found",
-      data: user
+    try {
+      const user = await this.knex('users').where({ email }).first();
+      if(!user) return {statusCode: 404, message: "User not found"};
+      return {
+        statusCode: 200,
+        message: "User found",
+        data: user
+      }
+    }catch(err){
+      return {
+        statusCode: 500,
+        message: err.message
+      }
     }
   }
 
