@@ -117,15 +117,16 @@ export class UserService {
     return { message: 'User profile updated successfully' };
   }
 
-  async getUser(email:string){
+  async updatePassword(email:string,password: string){
     try {
       const user = await this.knex('users').where({ email }).first();
       if(!user) return {statusCode: 404, message: "User not found"};
+      await this.knex('users').where({email}).update({password});
       return {
         statusCode: 200,
-        message: "User found",
-        data: user
+        message: 'password updated successfully'
       }
+      
     }catch(err){
       return {
         statusCode: 500,

@@ -61,8 +61,8 @@ export class UsersController {
     return await this.userService.verifyOTP(body.email, body.otp);
   }
 
-  @Post('get-user')
-  async getUser(@Body() body: {email: string}){
-    return await this.userService.getUser(body.email);
+  @Post('update-password')
+  async updatePassword(@Body() body: {email: string,password: string}){
+    return await this.userService.updatePassword(body.email,body.password);
   }
 }
