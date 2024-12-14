@@ -54,7 +54,7 @@ export class UserService {
 
   async login(email:string,password:string){
     const user = await this.knex('users').where({email}).first();
-    if(!user) return {statusCode: 401,message: "User no found"};
+    if(!user) return {statusCode: 401,message: "User not found"};
 
     const match = await bcryptjs.compare(password, user.password);
     if(match){
@@ -121,7 +121,8 @@ export class UserService {
     try {
       const user = await this.knex('users').where({ email }).first();
       if(!user) return {statusCode: 404, message: "User not found"};
-      await this.knex('users').where({email}).update({password});
+      const hashedPassword = await bcryptjs.hash(password,10);
+      await this.knex('users').where({email}).update({password:hashedPassword});
       return {
         statusCode: 200,
         message: 'password updated successfully'
