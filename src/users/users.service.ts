@@ -14,6 +14,14 @@ export class UserService {
   async getAllUsers() {
     return await this.knex('users').select('*'); 
   }
+  async getUser(_email: {email: string}){
+    const {email} = _email;
+    const user = await this.knex('users').where({email}).first();
+    return {
+      statusCode: 200,
+      user
+    }
+  }
 
   async verifyUser(firstname:string,lastname:string,email:string,password:string,phonenumber:string){
     const checkIfEmailExists = await this.knex('users').where({email}).first();

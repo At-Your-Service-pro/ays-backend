@@ -1,4 +1,4 @@
-import { Controller, Post, Body, UseGuards,Patch } from '@nestjs/common';
+import { Controller, Post, Body, UseGuards,Patch,Get } from '@nestjs/common';
 import { UserService } from './users.service';
 import { JwtAuthGuard } from 'src/auth/auth.guard';
 import { userDto,loginDto } from './users.dto';
@@ -17,6 +17,11 @@ export class UsersController {
       password,
       phonenumber 
     );
+  }
+
+  @Get('get-user')
+  async getUser(@Body() email: {email: string}) {
+    return await this.userService.getUser(email);
   }
 
   @Post('verify-user')
