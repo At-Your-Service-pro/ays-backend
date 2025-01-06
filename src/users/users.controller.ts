@@ -19,6 +19,8 @@ export class UsersController {
     );
   }
 
+  
+  @UseGuards(JwtAuthGuard)
   @Get('get-user')
   async getUser(@Body() email: {email: string}) {
     return await this.userService.getUser(email);
