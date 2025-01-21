@@ -8,19 +8,19 @@ export class CategoryController {
     constructor (private readonly categoryService: CategoryService){}
 
     @UseGuards(JwtAuthGuard)
-    @Post()
+    @Post('create-category')
     async createCategory(@Body() createCategoryDto: categoryDto) {
         return this.categoryService.create(createCategoryDto);
     }
 
     @UseGuards(JwtAuthGuard)
-    @Get()
+    @Get('get-categories')
     async getAllCategories() {
         return this.categoryService.getAllCategories();
     }
 
     @UseGuards(JwtAuthGuard)
-    @Get(':id')
+    @Get('get-category')
     async getCategory(@Param('id') id: number) {
         return this.categoryService.getCategory(id);
     }

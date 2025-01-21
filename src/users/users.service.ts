@@ -79,11 +79,9 @@ export class UserService {
          message: 'Login successful',
          token: token, // Return the token to the client
        };
-
     } else {
       return {statusCode: 401,message: "Wrong credentials"};
     }
-
   }
 
    // Update user email and password

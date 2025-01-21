@@ -62,7 +62,7 @@ export class UsersController {
   //   return { message: 'OTP has been resent to your email.' };
   // }
 
-  @Post('verify-otp')
+  @Post('verify-otp') 
   async verifyOtp(@Body() body: { email: string; otp: string }) {
     return await this.userService.verifyOTP(body.email, body.otp);
   }
