@@ -7,6 +7,7 @@ import { ConfigModule } from '@nestjs/config';
 import { CategoryModule } from './category/category.module';
 import { ServicesModule } from './services/services.module';
 import { AdminAuthModule } from './admin-auth/admin-auth.module';
+import { SubscriptionModule } from './subscription/subscription.module';
 
 @Module({
   imports: [
@@ -15,7 +16,8 @@ import { AdminAuthModule } from './admin-auth/admin-auth.module';
     ConfigModule.forRoot({ isGlobal: true }),
     CategoryModule,
     ServicesModule,
-    AdminAuthModule
+    AdminAuthModule,
+    SubscriptionModule
   ],
   controllers: [AppController],
   providers: [AppService],
