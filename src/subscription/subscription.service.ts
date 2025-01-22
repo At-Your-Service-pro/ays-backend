@@ -1,4 +1,4 @@
-import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus,Inject } from '@nestjs/common';
 import { Cron } from '@nestjs/schedule';
 import axios from 'axios';
 import { Knex } from 'knex';
@@ -8,9 +8,8 @@ export class SubscriptionService {
   private readonly PAYSTACK_SECRET_KEY = 'your_paystack_secret_key'; // Replace with your secret key
   private readonly PAYSTACK_BASE_URL = 'https://api.paystack.co';
 
-  constructor(private readonly knex: Knex) {}
+  constructor(@Inject('KnexConnection') private readonly knex: Knex) {}
 
-  // Step 1: Initialize Payment
   async initializePayment(email: string, amount: number) {
     try {
       const response = await axios.post(
@@ -115,7 +114,7 @@ export class SubscriptionService {
   
    dueProviders.forEach(provider => {
      return {
-      message: 'Please renew your subscription within 5 days to avois deactivation';
+      message: 'Please renew your subscription within 5 days to avois deactivation'
      }
    });
   
@@ -150,6 +149,4 @@ export class SubscriptionService {
       `${expiredProviders.length} subscriptions expired beyond the 5-day grace period and were deactivated.`,
     );
   }
-  
-
 }
