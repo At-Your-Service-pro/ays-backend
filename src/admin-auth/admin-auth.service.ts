@@ -44,7 +44,7 @@ export class AdminAuthService {
   async loginAdmin(email: string, password: string){
     const user = await this.knex('admin').where({email}).first();
 
-    if (!user || user.role !== 'super_admin') {
+    if (!user) {
       return {
         message: 'Invalid credentials or not a super admin',
       }

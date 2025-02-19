@@ -1,16 +1,16 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import * as dotenv from 'dotenv';
+import * as dotenv from 'dotenv'; 
 dotenv.config();
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors({
     origin: [
-      'http://localhost:3104'
+      'http://localhost:3104'   
     ],
     allowedHeaders: [
-      'Access-Control-Allow-Origin',
+      'Access-Control-Allow-Origin', 
       'X-Requested-With',
       'Content-Type',
       'Authorization',
