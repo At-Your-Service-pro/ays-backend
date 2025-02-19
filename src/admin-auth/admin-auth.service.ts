@@ -60,11 +60,14 @@ export class AdminAuthService {
     const payload = { email: user.email, role: user.role };
     const accessToken = this.jwtService.sign(payload);
 
+    await this.knex('admin')
+    .where({ email })
+    .update({ token: accessToken });
+
     return {
       message: 'Admin logged in successfully',
       accessToken,
       user
     };
   }
-
 }
