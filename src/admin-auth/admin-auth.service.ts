@@ -16,6 +16,7 @@ export class AdminAuthService {
     if (superAdminKey !== this.SUPER_ADMIN_KEY) {
       return {
         message: 'Invalid admin key',
+        statusCode: 200
       }
     }
 
@@ -23,6 +24,7 @@ export class AdminAuthService {
     if (existingUser) {
       return {
         message: 'Admin already exists',
+        statusCode : 200
       }
     }
 
@@ -31,13 +33,14 @@ export class AdminAuthService {
       email,
       password: hashedPassword,
       admin_key: superAdminKey,
-      role: 'super_admin',
+      role: 'admin',
       firstname: firstname,
       lastname: lastname,
     });
 
     return {
-      message: 'Super admin created successfully'
+      message: 'Super admin created successfully',
+      statusCode: 201
     };
   }
 
@@ -46,14 +49,16 @@ export class AdminAuthService {
 
     if (!user) {
       return {
-        message: 'Invalid credentials or not a super admin',
+        message: 'Admin does not exists',
+        statusCode: 400
       }
     }
 
     const isPasswordValid = await compare(password, user.password);
     if (!isPasswordValid) {
       return {
-        message: 'Invalid credentials',
+        message: 'Invalid password credentials',
+        statusCode: 400
       }
     }
 
@@ -67,7 +72,8 @@ export class AdminAuthService {
     return {
       message: 'Admin logged in successfully',
       accessToken,
-      user
+      user,
+      statusCode: 200
     };
   }
 }
