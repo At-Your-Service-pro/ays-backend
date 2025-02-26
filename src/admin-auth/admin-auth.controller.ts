@@ -1,7 +1,8 @@
-import { Controller,Post,Body,UseGuards,Get,UseInterceptors} from '@nestjs/common';
+import { Controller,Post,Body,UseGuards,Get,UseInterceptors,Res} from '@nestjs/common';
 import { AdminAuthService } from './admin-auth.service';
 import { JwtAuthGuard } from './admin.guard';
 import {CookieInterceptor} from './cookie.interceptor';
+import {Response} from 'express';
 
 @UseInterceptors(CookieInterceptor)
 @Controller('admin-auth')
@@ -29,5 +30,16 @@ export class AdminAuthController {
     async getUsers(){
       return this.adminAuthService.getUsers();
     }
+
+    @Post('logout')
+    async logout(@Res() res: Response) {
+    res.clearCookie('access_token', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+    });
+
+    return res.json({ message: 'Logged out successfully' });
+  }
   }
   

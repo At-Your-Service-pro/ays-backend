@@ -8,9 +8,8 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.use(cookieParser());
   app.enableCors({
-    origin: [
-      'http://localhost:5172'   
-    ],
+    origin: 'http://localhost:5172',
+    credentials: true,
     allowedHeaders: [
       'Access-Control-Allow-Origin', 
       'X-Requested-With',
@@ -18,7 +17,6 @@ async function bootstrap() {
       'Authorization',
     ],
     methods: ['GET', 'PUT', 'POST', 'DELETE', 'OPTIONS'], 
-    credentials: true,
 
   });
   await app.listen(process.env.PORT ?? 3000);
