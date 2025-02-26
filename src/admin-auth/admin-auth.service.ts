@@ -74,10 +74,13 @@ export class AdminAuthService {
     };
   }
 
-  async getUsers(){
+  async getUsers() {
     const users = await this.knex('users');
-    return {
-      users
-    }
+  
+    // Remove password field from each user
+    const sanitizedUsers = users.map(({ password, ...user }) => user);
+  
+    return { users: sanitizedUsers };
   }
+  
 }
