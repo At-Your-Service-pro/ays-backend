@@ -8,6 +8,8 @@ import { CategoryModule } from './category/category.module';
 import { ServicesModule } from './services/services.module';
 import { AdminAuthModule } from './admin-auth/admin-auth.module';
 import { SubscriptionModule } from './subscription/subscription.module';
+import {CookieInterceptor} from './admin-auth/cookie.interceptor';
+import { APP_INTERCEPTOR } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -20,6 +22,9 @@ import { SubscriptionModule } from './subscription/subscription.module';
     SubscriptionModule
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, {
+    provide: APP_INTERCEPTOR,
+    useClass: CookieInterceptor,
+  }],
 })
 export class AppModule {}

@@ -1,5 +1,6 @@
-import { Injectable,Inject } from '@nestjs/common';
+import { Injectable,Inject,Res } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { Response } from 'express';
 import { hash, compare } from 'bcryptjs';
 import { Knex } from 'knex';
 
@@ -45,16 +46,16 @@ export class AdminAuthService {
   }
 
   async loginAdmin(email: string, password: string){
-    const user = await this.knex('admin').where({email}).first();
+    const admin = await this.knex('admin').where({email}).first();
 
-    if (!user) {
+    if (!admin) {
       return {
         message: 'Admin does not exists',
         statusCode: 400
       }
     }
 
-    const isPasswordValid = await compare(password, user.password);
+    const isPasswordValid = await compare(password, admin.password);
     if (!isPasswordValid) {
       return {
         message: 'Invalid password credentials',
@@ -62,18 +63,21 @@ export class AdminAuthService {
       }
     }
 
-    const payload = { email: user.email, role: user.role };
+    const payload = { email: admin.email, role: admin.role };
     const accessToken = this.jwtService.sign(payload);
-
-    await this.knex('admin')
-    .where({ email })
-    .update({ token: accessToken });
 
     return {
       message: 'Admin logged in successfully',
+      admin,
       accessToken,
-      user,
       statusCode: 200
     };
+  }
+
+  async getUsers(){
+    const users = await this.knex('users');
+    return {
+      users
+    }
   }
 }
