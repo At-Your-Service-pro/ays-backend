@@ -10,25 +10,20 @@ export class ServicesController {
   @UseGuards(JwtAuthGuard)
   @Post('create')
   async create(@Body() serviceDto: serviceDto) {
-    const { name, location, phonenumber, address, services_offered, description, images,category_id,user_id,profile_image } = serviceDto;
-  
-    // Convert service_price to string
-    const formattedServicesOffered = services_offered.map((service) => ({
-      ...service,
-      service_price: service.service_price.toString(),
-    }));
+    const { firstname,lastname,email,password,brandname, location, phonenumber,description, images,category,services} = serviceDto;
   
     return this.serviceService.createService(
-      name,
-      location,
+      firstname,
+      lastname,
+      email,
+      password,
       phonenumber,
-      address,
-      formattedServicesOffered, // Pass formatted data
+      brandname,
       description,
+      category,
+      location,
       images,
-      category_id,
-      user_id,
-      profile_image
+      services,
     );
   }
   

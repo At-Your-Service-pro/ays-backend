@@ -1,60 +1,63 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Knex } from 'knex';
+import * as bcryptjs from 'bcryptjs';
 
 @Injectable()
 export class ServicesService {
   constructor(@Inject('KnexConnection') private readonly knex: Knex) {}
 
   async createService(
-    name: string,
-    location: string,
+    firstname: string,
+    lastname: string,
+    email: string,
+    password: string,
     phonenumber: string,
-    address: string,
-    services_offered: { service_name: string; service_price: string }[],
+    brandname: string,
     description: string,
+    category: number,
+    location: string,
     images: string[],
-    category_id: number,
-    user_id: number,
-    profile_image: string
+    services: { name: string; price: string }[],
   ) {
-    return this.knex('services')
+     const hasedpassword  = await bcryptjs.hash(password, 10);
+    return this.knex('servicesproviders')
       .insert({
-        name,
-        location,
+        firstname,
+        lastname,
+        email,
+        password: hasedpassword,
         phonenumber,
-        address,
-        services_offered: JSON.stringify(services_offered), // Convert to JSON string for storage in a JSONB column
+        brandname,
         description,
-        images: JSON.stringify(images), // Convert to JSON string for storage
-        category_id,
-        user_id,
-        profile_image
-
+        category,
+        location,
+        images: this.knex.raw('ARRAY[?]::TEXT[]', [[images]]),
+        services: JSON.stringify(services), // Convert to JSON string for storage in a JSONB column
       })
-      .returning('*');
+      .returning('*');  
   }
   
 
   async getAllServices() {
-    return this.knex('services')
+    return this.knex('servicesproviders')
                   .select('*')
                   .orderBy('created_at', 'desc') // Order by the most recent entries
                   .limit(5);
   }
 
   async getServiceById(id: number) {
-    return this.knex('services').where({ id }).first();
+    return this.knex('servicesproviders').where({ id }).first();
   }
 
   async getServicesByCategory(categoryId: number) {
-    return this.knex('services').where({ category_id: categoryId });
+    return this.knex('servicesproviders').where({ category_id: categoryId });
   }
 
   async updateService(id: number, data: any) {
-    return this.knex('services').where({ id }).update(data).returning('*');
+    return this.knex('servicesproviders').where({ id }).update(data).returning('*');
   }
 
   async deleteService(id: number) {
-    return this.knex('services').where({ id }).del();
+    return this.knex('servicesproviders').where({ id }).del();
   }
 }

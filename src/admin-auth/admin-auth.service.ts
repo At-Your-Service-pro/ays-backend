@@ -3,6 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { Response } from 'express';
 import { hash, compare } from 'bcryptjs';
 import { Knex } from 'knex';
+import { categoryDto } from 'src/category/category.dto';
 
 @Injectable()
 export class AdminAuthService {
@@ -82,5 +83,48 @@ export class AdminAuthService {
   
     return { users: sanitizedUsers };
   }
+
+   async createCategory(data: categoryDto) {
+          const {name} = data;
+          await this.knex('category').insert({name});
   
+          return {
+              statusCode: 201,
+              message: 'Category created successfully'
+          }
+      }
+  
+    async getAllCategories() {
+          const categories = await this.knex('category').select('*');
+          if(!categories) return {statusCode: 404, message: 'Categories not found'};
+          return {statusCode: 200, data: categories};
+      }
+      
+    async deleteCategory(data) {
+      try{
+        await this.knex('category').delete('category').where({id: data})
+        return {
+          statusCode: 200,
+          message: 'category deleted successfully'
+        }
+      }catch(error){
+        return {
+          error
+        }
+      }
+    }
+
+    async updateCategory(id: number,category: string) {
+      try{
+        await this.knex('category')
+        .where({ id }) // Find category by ID
+        .update({ name: category }) // Update the category nam
+        return {
+          statusCode: 200,
+          message: 'category updated successfully'
+        }
+      }catch(error){
+        console.error(error);
+      }
+    }
 }

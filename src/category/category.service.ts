@@ -7,8 +7,8 @@ export class CategoryService {
     constructor(@Inject('KnexConnection') private readonly knex: Knex) {}
 
     async create(data: categoryDto) {
-        const {name,description} = data;
-        await this.knex('category').insert({name, description});
+        const {name} = data;
+        await this.knex('category').insert({name});
 
         return {
             statusCode: 201,
