@@ -10,7 +10,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
     super({
       jwtFromRequest: ExtractJwt.fromExtractors([
         (request: Request) => {
-          console.log('🔍 Extracting Token from Cookie:', request.cookies); // Debugging
+          // console.log('🔍 Extracting Token from Cookie:', request.cookies); // Debugging
           return request?.cookies?.access_token || null; // Ensure the correct cookie name
         },
       ]),
@@ -26,7 +26,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
       }
       // throw new UnauthorizedException('Invalid token');
     }
-    console.log('✅ JWT Payload:', payload);
+    // console.log('✅ JWT Payload:', payload);
     return { userId: payload.sub, username: payload.username };
   }
 }

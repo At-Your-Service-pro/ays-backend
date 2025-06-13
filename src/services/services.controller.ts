@@ -36,8 +36,8 @@ export class ServicesController {
 
   @UseGuards(JwtAuthGuard)
   @Get(':id')
-  async findOne(@Param('id') id: number) {
-    return this.serviceService.getServiceById(id);
+  async findOne(@Param('id') id: string) {
+    return this.serviceService.getServiceById(Number(id)); // Convert to number
   }
 
   @UseGuards(JwtAuthGuard)
@@ -48,8 +48,8 @@ export class ServicesController {
 
   @UseGuards(JwtAuthGuard)
   @Put(':id')
-  async update(@Param('id') id: number, @Body() data: any) {
-    return this.serviceService.updateService(id, data);
+  async update(@Param('id') id: string, @Body() data: any) {
+    return this.serviceService.updateService(Number(id), data);
   }
 
   @UseGuards(JwtAuthGuard)
