@@ -20,7 +20,7 @@ export class ServicesService {
     services: { name: string; price: string }[],
   ) {
      const hasedpassword  = await bcryptjs.hash(password, 10);
-    return this.knex('servicesproviders')
+    const data = await this.knex('servicesproviders')
       .insert({
         firstname,
         lastname,
@@ -35,6 +35,11 @@ export class ServicesService {
         services: JSON.stringify(services), // Convert to JSON string for storage in a JSONB column
       })
       .returning('*');  
+
+      return {
+        statusCode: 200,
+        data
+      }
   }
   
 
@@ -58,8 +63,23 @@ export class ServicesService {
   }
 
   async updateService(id: number, data: any) {
-    return this.knex('servicesproviders').where({ id }).update(data).returning('*');
-  }
+  const payload = {
+    ...data,
+    services: JSON.stringify(data.services_offered), 
+    images: JSON.stringify(data.images),                     
+  };
+
+  const provider = await this.knex('servicesproviders')
+    .where({ id })
+    .update(payload)
+    .returning('*'); 
+
+  return {
+    statusCode: 200,
+    provider, 
+  };
+}
+
 
   async deleteService(id: number) {
     return this.knex('servicesproviders').where({ id }).del();
