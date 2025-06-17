@@ -114,6 +114,14 @@ export class AdminAuthService {
       }
     }
 
+    async getCategoryById(id: number) {
+    const category = await this.knex('category').where({ id }).first();
+    return {
+      statusCodr: 200,
+      category
+    }
+  }
+
     async updateCategory(id: number,category: string) {
       try{
         await this.knex('category')

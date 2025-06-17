@@ -1,4 +1,4 @@
-import { Controller,Post,Body,UseGuards,Get,UseInterceptors,Res} from '@nestjs/common';
+import { Controller,Post,Body,UseGuards,Get,UseInterceptors,Res,Param} from '@nestjs/common';
 import { AdminAuthService } from './admin-auth.service';
 import { JwtAuthGuard } from './admin.guard';
 import {CookieInterceptor} from './cookie.interceptor';
@@ -43,6 +43,12 @@ export class AdminAuthController {
         async getAllCategories() {
           return this.adminAuthService.getAllCategories();
         }
+
+     @UseGuards(JwtAuthGuard)
+       @Get(':id')
+       async findOne(@Param('id') id: string) {
+         return this.adminAuthService.getCategoryById(Number(id)); // Convert to number
+       }
 
       @UseGuards(JwtAuthGuard)
       @Post('delete-category')

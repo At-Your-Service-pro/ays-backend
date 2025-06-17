@@ -95,7 +95,6 @@ export class ServicesService {
   };
 }
 
-
   async deleteService(id: number) {
     await this.knex('servicesproviders').where({ id }).del();
     return {
