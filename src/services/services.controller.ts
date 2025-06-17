@@ -53,8 +53,8 @@ export class ServicesController {
 
   @UseGuards(JwtAuthGuard)
   @Delete(':id')
-  async remove(@Param('id') id: number) {
-    return this.serviceService.deleteService(id); 
+  async remove(@Param('id') id: string) {
+    return this.serviceService.deleteService(Number(id)); 
   }
 }
 

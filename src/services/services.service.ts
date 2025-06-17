@@ -97,6 +97,10 @@ export class ServicesService {
 
 
   async deleteService(id: number) {
-    return this.knex('servicesproviders').where({ id }).del();
+    await this.knex('servicesproviders').where({ id }).del();
+    return {
+      statusCode: 200,
+      message: 'service provider deleted successfully'
+    }
   }
 }
