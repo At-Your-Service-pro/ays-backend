@@ -10,13 +10,12 @@ export class ServicesController {
   @UseGuards(JwtAuthGuard)
   @Post('create')
   async create(@Body() serviceDto: serviceDto) {
-    const { firstname,lastname,email,password,brandname, location, phonenumber,description, images,category,services} = serviceDto;
+    const { firstname,lastname,email,brandname, location, phonenumber,description, images,category,services} = serviceDto;
   
     return this.serviceService.createService(
       firstname,
       lastname,
       email,
-      password,
       phonenumber,
       brandname,
       description,
@@ -55,7 +54,7 @@ export class ServicesController {
   @UseGuards(JwtAuthGuard)
   @Delete(':id')
   async remove(@Param('id') id: number) {
-    return this.serviceService.deleteService(id);
+    return this.serviceService.deleteService(id); 
   }
 }
 

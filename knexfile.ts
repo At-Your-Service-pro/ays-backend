@@ -10,8 +10,8 @@ const config = {
     migrations: {
       directory: './src/migrations', // Folder for migration files
     },
-    seeds: {
-      directory: './src/seeds', // Folder for seed files
+    seeds: { 
+      directory: './src/seeds', // Folder for seed files 
     },
   };
   

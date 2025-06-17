@@ -9,11 +9,11 @@ import { ServicesModule } from './services/services.module';
 import { AdminAuthModule } from './admin-auth/admin-auth.module';
 import { SubscriptionModule } from './subscription/subscription.module';
 import {CookieInterceptor} from './admin-auth/cookie.interceptor';
-import { APP_INTERCEPTOR } from '@nestjs/core';
+import { APP_INTERCEPTOR } from '@nestjs/core'; 
 
 @Module({
   imports: [
-    KnexModule,
+    KnexModule,  
     UsersModule,
     ConfigModule.forRoot({ isGlobal: true }),
     CategoryModule,
