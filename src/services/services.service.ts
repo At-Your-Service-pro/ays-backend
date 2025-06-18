@@ -107,9 +107,21 @@ async approveServiceProvider(id: number) {
     statusCode: 200,
     provider, 
   };
-
 }
 
+async declineServiceProvider(id: number) {
+   const provider = await this.knex('servicesproviders')
+    .where({ id })
+    .update({
+       status: 'decline'
+      })
+    .returning('*'); 
+
+  return {
+    statusCode: 200,
+    provider, 
+  };
+}
   async deleteService(id: number) {
     await this.knex('servicesproviders').where({ id }).del();
     return {
