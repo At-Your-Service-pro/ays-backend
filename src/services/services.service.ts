@@ -128,7 +128,7 @@ async reasonforDecline(reason: string,id: number){
     .where({id})
     .update({
       reasonfordecline: reason,
-      status: 'decline'
+      status: 'declined'
     })
 
     return {
