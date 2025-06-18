@@ -56,5 +56,11 @@ export class ServicesController {
   async remove(@Param('id') id: string) {
     return this.serviceService.deleteService(Number(id)); 
   }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('approve-service')
+  async approveServiceProvider(@Body() body: any) {
+    return this.serviceService.approveServiceProvider(Number(body.id));
+  }
 }
 
