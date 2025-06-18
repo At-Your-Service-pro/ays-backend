@@ -127,8 +127,13 @@ async reasonforDecline(reason: string,id: number){
   await this.knex('servicesproviders')
     .where({id})
     .update({
-      reasonfordecline: reason
+      reasonfordecline: reason,
+      status: 'decline'
     })
+
+    return {
+      statusCode: 200
+    }
 }
   async deleteService(id: number) {
     await this.knex('servicesproviders').where({ id }).del();
