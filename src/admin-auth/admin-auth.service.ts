@@ -115,10 +115,10 @@ export class AdminAuthService {
     }
 
     async getCategoryById(id: number) {
-    const category = await this.knex('category').where({ id }).first();
+    const _category = await this.knex('category').where({ id }).first();
     return {
-      statusCodr: 200,
-      category
+      statusCode: 200,
+      data: _category
     }
   }
 

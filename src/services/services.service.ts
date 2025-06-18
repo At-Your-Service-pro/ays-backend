@@ -95,6 +95,21 @@ export class ServicesService {
   };
 }
 
+async approveServiceProvider(id: number) {
+   const provider = await this.knex('servicesproviders')
+    .where({ id })
+    .update({
+       status: 'approved'
+      })
+    .returning('*'); 
+
+  return {
+    statusCode: 200,
+    provider, 
+  };
+
+}
+
   async deleteService(id: number) {
     await this.knex('servicesproviders').where({ id }).del();
     return {
