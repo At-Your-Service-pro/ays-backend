@@ -62,5 +62,18 @@ export class ServicesController {
   async approveServiceProvider(@Body() body: any) {
     return this.serviceService.approveServiceProvider(Number(body.id));
   }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('decline-service')
+  async declineServiceProvider(@Body() body: any) {
+    return this.serviceService.declineServiceProvider(Number(body.id));
+  }
+
+   @UseGuards(JwtAuthGuard)
+  @Post('reason-service')
+  async reasonforDecline(@Body() body: any) {
+    const {reason,id} = body;
+    return this.serviceService.reasonforDecline(reason,id);
+  }
 }
 

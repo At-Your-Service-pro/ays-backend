@@ -122,6 +122,14 @@ async declineServiceProvider(id: number) {
     provider, 
   };
 }
+
+async reasonforDecline(reason: string,id: number){
+  await this.knex('servicesproviders')
+    .where({id})
+    .update({
+      reasonfordecline: reason
+    })
+}
   async deleteService(id: number) {
     await this.knex('servicesproviders').where({ id }).del();
     return {
