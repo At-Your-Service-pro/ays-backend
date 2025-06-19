@@ -28,7 +28,7 @@ export class RequestsService {
   async findAll() {
     const requests = await this.knex('requests')
                   .select('*')
-                  .orderBy('created_at', 'desc')
+                  .orderBy('id', 'desc')
     return {
         statusCode: 200,
         requests
@@ -38,7 +38,7 @@ export class RequestsService {
   async findOne(id: number) {
     const request = await this.knex('requests').where({ id }).first();
     return {
-      statusCode: 200,
+      statusCode: 200, 
       request
     }
   }
