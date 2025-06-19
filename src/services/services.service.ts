@@ -44,7 +44,7 @@ export class ServicesService {
     return this.knex('servicesproviders')
                   .select('*')
                   .orderBy('created_at', 'desc') // Order by the most recent entries
-                  .limit(5);
+
   }
 
   async getServiceById(id: number) {

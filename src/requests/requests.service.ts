@@ -25,15 +25,29 @@ export class RequestsService {
    
   }
 
-  findAll() {
-    
+  async findAll() {
+    const requests = await this.knex('requests')
+                  .select('*')
+                  .orderBy('created_at', 'desc')
+    return {
+        statusCode: 200,
+        requests
+    }              
   }
 
-  findOne(id: number) {
-   
+  async findOne(id: number) {
+    const request = await this.knex('requests').where({ id }).first();
+    return {
+      statusCode: 200,
+      request
+    }
   }
 
-  remove(id: number) {
-    
+  async remove(id: number) {
+    await this.knex('requests').where({ id }).del();
+    return {
+      statusCode: 200,
+      message: 'requests deleted successfully'
+    }
   }
 }
