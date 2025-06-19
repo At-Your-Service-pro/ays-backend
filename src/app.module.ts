@@ -10,6 +10,7 @@ import { AdminAuthModule } from './admin-auth/admin-auth.module';
 import { SubscriptionModule } from './subscription/subscription.module';
 import {CookieInterceptor} from './admin-auth/cookie.interceptor';
 import { APP_INTERCEPTOR } from '@nestjs/core'; 
+import { RequestsModule } from './requests/requests.module';
 
 @Module({
   imports: [
@@ -19,7 +20,8 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
     CategoryModule,
     ServicesModule,
     AdminAuthModule,
-    SubscriptionModule
+    SubscriptionModule,
+    RequestsModule
   ],
   controllers: [AppController],
   providers: [AppService, {
