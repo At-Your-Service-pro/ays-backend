@@ -114,7 +114,7 @@ export class SubscriptionService {
   
    dueProviders.forEach(provider => {
      return {
-      message: 'Please renew your subscription within 5 days to avois deactivation'
+      message: 'Please renew your subscription within 5 days to avoid deactivation'
      }
    });
   

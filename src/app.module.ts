@@ -11,6 +11,7 @@ import { SubscriptionModule } from './subscription/subscription.module';
 import {CookieInterceptor} from './admin-auth/cookie.interceptor';
 import { APP_INTERCEPTOR } from '@nestjs/core'; 
 import { RequestsModule } from './requests/requests.module';
+import { PaymentsModule } from './payments/payments.module';
 
 @Module({
   imports: [
@@ -21,7 +22,8 @@ import { RequestsModule } from './requests/requests.module';
     ServicesModule,
     AdminAuthModule,
     SubscriptionModule,
-    RequestsModule
+    RequestsModule,
+    PaymentsModule
   ],
   controllers: [AppController],
   providers: [AppService, {
