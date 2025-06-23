@@ -47,14 +47,15 @@ export class ServicesService {
 
   }
 
-  async getServiceById(id: number) {
+  async getServiceById(id: any) { 
+    console.log(id);
     const rest = await this.knex('servicesproviders').where({ id }).first();
     return {  
       rest
     }
   }
 
-  async getServicesByCategory(categoryId: number) {
+  async getServicesByCategory(categoryId: number) {  
     return this.knex('servicesproviders').where({ category_id: categoryId });
   }
 

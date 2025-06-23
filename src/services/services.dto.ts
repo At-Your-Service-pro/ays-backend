@@ -13,5 +13,5 @@ export class serviceDto {
     }[];
     description: string;
     images: string[];
-    category: number;
+    category: number; 
 }

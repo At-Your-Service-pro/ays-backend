@@ -26,7 +26,6 @@ export class ServicesController {
     );
   }
   
-
   @UseGuards(JwtAuthGuard)
   @Get('get-services')
   async findAll() {
@@ -36,12 +35,12 @@ export class ServicesController {
   @UseGuards(JwtAuthGuard)
   @Get(':id') 
   async findOne(@Param('id') id: any) {
-    return this.serviceService.getServiceById(id); // Convert to number
+    return this.serviceService.getServiceById(id); // Convert to number 
   }
 
   @UseGuards(JwtAuthGuard)
   @Get('get-services-by-category/:categoryId')
-  async getServicesByCategory(@Param('categoryId') categoryId: number) {
+  async getServicesByCategory(@Param('categoryId') categoryId: number) { 
     return this.serviceService.getServicesByCategory(categoryId);
   }
 

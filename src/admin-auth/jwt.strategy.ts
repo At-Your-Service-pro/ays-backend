@@ -8,25 +8,16 @@ import { ConfigService } from '@nestjs/config';
 export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
   constructor(private readonly configService: ConfigService) {
     super({
-      jwtFromRequest: ExtractJwt.fromExtractors([
-        (request: Request) => {
-          // console.log('🔍 Extracting Token from Cookie:', request.cookies); // Debugging
-          return request?.cookies?.access_token || null; // Ensure the correct cookie name
-        },
-      ]),
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(), // ✅ Use Bearer token
       secretOrKey: configService.get<string>('JWT_SECRET'),
-      passReqToCallback: true, // 👈 Required to access request object
+      passReqToCallback: true,
     });
   }
 
   async validate(req: Request, payload: any) {
     if (!payload) {
-      return {
-        message: 'Invalid token'
-      }
-      // throw new UnauthorizedException('Invalid token');
+      throw new UnauthorizedException('Invalid token');
     }
-    // console.log('✅ JWT Payload:', payload);
     return { userId: payload.sub, username: payload.username };
   }
 }
