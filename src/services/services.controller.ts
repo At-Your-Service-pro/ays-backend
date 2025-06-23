@@ -34,9 +34,9 @@ export class ServicesController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get(':id')
-  async findOne(@Param('id') id: string) {
-    return this.serviceService.getServiceById(Number(id)); // Convert to number
+  @Get(':id') 
+  async findOne(@Param('id') id: any) {
+    return this.serviceService.getServiceById(id); // Convert to number
   }
 
   @UseGuards(JwtAuthGuard)

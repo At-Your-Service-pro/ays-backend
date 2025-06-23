@@ -7,7 +7,7 @@ export class PaymentsController {
     constructor (private readonly paymentService: PaymentsService){}
 
     @UseGuards(JwtAuthGuard)
-    @Post('get-payments')
+    @Get('get')
         async getPayments() {
             return this.paymentService.get();
         }

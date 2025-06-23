@@ -48,9 +48,8 @@ export class ServicesService {
   }
 
   async getServiceById(id: number) {
-    const service = await this.knex('servicesproviders').where({ id }).first();
-    const {password,...rest} = service;
-    return {
+    const rest = await this.knex('servicesproviders').where({ id }).first();
+    return {  
       rest
     }
   }

@@ -1,4 +1,4 @@
-import { Controller, Post, Body, UseGuards,Patch,Get } from '@nestjs/common';
+import { Controller, Post, Body, UseGuards,Patch,Get,Param } from '@nestjs/common';
 import { UserService } from './users.service';
 import { JwtAuthGuard } from 'src/auth/auth.guard';
 import { userDto,loginDto } from './users.dto';
@@ -24,6 +24,12 @@ export class UsersController {
   async getUser(@Body() email: {email: string}) {
     return await this.userService.getUser(email);
   }
+
+  @UseGuards(JwtAuthGuard)
+    @Get(':id')
+    async findOne(@Param('id') id: string) {
+      return this.userService.getUserById(Number(id)); // Convert to number
+    }
 
   @Post('verify-user')
   async verifyUser(@Body() signupDto: { firstname:string,lastname:string,phonenumber:string,email: string; password: string }) {

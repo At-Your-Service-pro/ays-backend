@@ -23,11 +23,10 @@ export class UserService {
   }
 
   async getUserById(id: number){
-    const user = await this.knex('users').where({ id }).first();
-    const {password,...rest} = user;
+    const rest = await this.knex('users').where({ id }).first();
     return {
       rest
-    }
+    } 
   }
 
   async verifyUser(firstname:string,lastname:string,email:string,password:string,phonenumber:string){
