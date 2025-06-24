@@ -64,11 +64,11 @@ export class AdminAuthController {
        
     @Post('logout')
     async logout(@Res() res: Response) {
-    res.clearCookie('access_token', {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
-    });
+    // res.clearCookie('access_token', {
+    //   httpOnly: true,
+    //   secure: process.env.NODE_ENV === 'production',
+    //   sameSite: 'strict',
+    // });
 
     return res.json({ message: 'Logged out successfully' });
   }
