@@ -21,7 +21,7 @@ import { PaymentsModule } from './payments/payments.module';
     CategoryModule,
     ServicesModule,
     AdminAuthModule,
-    SubscriptionModule,
+    SubscriptionModule, 
     RequestsModule,
     PaymentsModule
   ],
