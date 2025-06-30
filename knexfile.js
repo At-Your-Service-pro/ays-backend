@@ -1,18 +1,16 @@
 const dotenv = require('dotenv');
 dotenv.config(); // Load .env file
 
-const isDocker = process.env.NODE_ENV === 'production';
+// const isDocker = process.env.NODE_ENV === 'production';
 
 const config = {
   client: 'pg',
-  connection: isDocker
-    ? process.env.DATABASE_URL
-    : {
-        host: 'localhost',
+  connection: {
+        host: 'database-1.cvkau2m8ontm.eu-north-1.rds.amazonaws.com',
         port: 5432,
         user: 'postgres',
-        password: 'Emoji@500',
-        database: 'AYS-DB',
+        password: 'Emoji12345678',
+        database: 'AYSDB',
       },
   migrations: {
     
