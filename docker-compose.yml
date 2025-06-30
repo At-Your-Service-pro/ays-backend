@@ -1,33 +1,28 @@
-version: '3.8'
+networks:
+  ays-net:
 
 services:
   db:
     image: postgres:17
+    container_name: ays-db
     restart: always
+    ports:
+      - "5432:5432"
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: Emoji@500
       POSTGRES_DB: AYS-DB
-    ports:
-      - '5432:5432'
-    volumes:
-      - pgdata:/var/lib/postgresql/data
+    networks:
+      - ays-net
 
   backend:
     build: .
-    restart: always
+    container_name: ays-backend
     ports:
-      - '3104:3104'
+      - "3104:3104"
     env_file:
       - .env
     depends_on:
       - db
     networks:
       - ays-net
-
-volumes:
-  pgdata:
-
-networks:
-  ays-net:
-    driver: bridge

@@ -1,15 +1,18 @@
 import { Module, Global } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import * as Knex from 'knex';
-import { ConfigService } from '@nestjs/config';
 
 @Global()
 @Module({
+  imports: [ConfigModule],
   providers: [
     {
       provide: 'KnexConnection',
       useFactory: async (configService: ConfigService) => {
-        const knexConfig = require('./knexfile');
-        const knex = Knex(knexConfig);
+        const knex = Knex({
+          client: 'pg',
+          connection: configService.get<string>('DATABASE_URL'),
+        });
         return knex;
       },
       inject: [ConfigService],

@@ -2,7 +2,7 @@ pipeline {
   agent any
 
   environment {
-    IMAGE_NAME = 'nest-backend'
+    IMAGE_NAME = 'ays-backend-backend'
     CONTAINER_PORT = '3104'
   }
 
