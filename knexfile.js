@@ -15,6 +15,7 @@ const config = {
         database: 'AYS-DB',
       },
   migrations: {
+    
     directory: './src/migrations',
   },
   seeds: {

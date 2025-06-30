@@ -16,9 +16,11 @@ WORKDIR /app
 RUN apk add --no-cache bash
 
 COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/src/migrations ./src/migrations
 COPY --from=builder /app/node_modules ./node_modules
 COPY package*.json ./
 COPY .env ./.env
+COPY knexfile.js ./
 
 COPY wait-for-it.sh ./wait-for-it.sh
 RUN chmod +x wait-for-it.sh
