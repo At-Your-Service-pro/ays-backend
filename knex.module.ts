@@ -9,11 +9,23 @@ import * as Knex from 'knex';
     {
       provide: 'KnexConnection',
       useFactory: async (configService: ConfigService) => {
-        const knex = Knex({
+        return Knex({
           client: 'pg',
-          connection: configService.get<string>('DATABASE_URL'),
+          connection: {
+            host: configService.get('DB_HOST'),
+            port: configService.get<number>('DB_PORT'),
+            user: configService.get('DB_USER'),
+            password: configService.get('DB_PASSWORD'),
+            database: configService.get('DB_NAME'),
+            ssl: { rejectUnauthorized: false }  // Required for AWS RDS
+          },
+          migrations: {
+            directory: './src/migrations',
+          },
+          seeds: {
+            directory: './src/seeds',
+          }
         });
-        return knex;
       },
       inject: [ConfigService],
     },

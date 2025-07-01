@@ -6,14 +6,15 @@ dotenv.config(); // Load .env file
 const config = {
   client: 'pg',
   connection: {
-        host: 'database-1.cvkau2m8ontm.eu-north-1.rds.amazonaws.com',
-        port: 5432,
-        user: 'postgres',
-        password: 'Emoji12345678',
-        database: 'AYSDB',
+         host: process.env.DB_HOST,
+    port: parseInt(process.env.DB_PORT || '5432'),
+    user: process.env.DB_USER,
+    password: String(process.env.DB_PASSWORD), // Explicit string cast
+    database: process.env.DB_NAME,
+    // ssl: { rejectUnauthorized: false }
       },
   migrations: {
-    directory: './src/migrations',
+    directory: './src/migrations', 
   },
   seeds: {
     directory: './src/seeds',
