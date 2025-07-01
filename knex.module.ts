@@ -15,7 +15,7 @@ import * as Knex from 'knex';
             host: configService.get('DB_HOST'),
             port: configService.get<number>('DB_PORT'),
             user: configService.get('DB_USER'),
-            password: configService.get('DB_PASSWORD'),
+            password: configService.get('DB_PASSWORD'), 
             database: configService.get('DB_NAME'),
             ssl: { rejectUnauthorized: false }  // Required for AWS RDS
           },
