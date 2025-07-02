@@ -38,8 +38,7 @@ services:
     networks:
       - ays-net
 
-  # Nginx Reverse Proxy
-  services:
+  # Nginx Reverse Proxy - FIXED THIS SECTION
   nginx:
     image: nginx:alpine
     container_name: ays-nginx
@@ -47,10 +46,9 @@ services:
       - "80:80"
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
-      # Add this to remove default configuration
-      - /etc/nginx/conf.d/:/etc/nginx/conf.d/
+      - ./conf.d/:/etc/nginx/conf.d/  # Changed to use local directory
     command: >
-      sh -c "rm /etc/nginx/conf.d/default.conf
+      sh -c "rm -f /etc/nginx/conf.d/default.conf
              && nginx -g 'daemon off;'"
     depends_on:
       - backend
@@ -59,17 +57,4 @@ services:
 
   # PgAdmin for Database Management
   pgadmin:
-    image: dpage/pgadmin4
-    container_name: ays-pgadmin
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@ays.com
-      PGADMIN_DEFAULT_PASSWORD: admin123
-    ports:
-      - "5050:80"
-    depends_on:
-      - db
-    networks:
-      - ays-net
-
-volumes:
-  postgres-data:
+   
