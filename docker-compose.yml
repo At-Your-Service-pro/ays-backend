@@ -1,28 +1,75 @@
+version: '3.8'
+
 networks:
   ays-net:
+    driver: bridge
 
 services:
+  # PostgreSQL Database
   db:
     image: postgres:17
     container_name: ays-db
     restart: always
-    ports:
-      - "5432:5432"
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: Emoji@500
       POSTGRES_DB: AYS-DB
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
     networks:
       - ays-net
 
+  # NestJS Backend (with hot-reloading)
   backend:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: ays-backend
-    ports:
-      - "3104:3104"
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    environment:
+      - NODE_ENV=development
+      - PORT=3104
     env_file:
       - .env
     depends_on:
       - db
     networks:
       - ays-net
+
+  # Nginx Reverse Proxy
+  services:
+  nginx:
+    image: nginx:alpine
+    container_name: ays-nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      # Add this to remove default configuration
+      - /etc/nginx/conf.d/:/etc/nginx/conf.d/
+    command: >
+      sh -c "rm /etc/nginx/conf.d/default.conf
+             && nginx -g 'daemon off;'"
+    depends_on:
+      - backend
+    networks:
+      - ays-net
+
+  # PgAdmin for Database Management
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: ays-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@ays.com
+      PGADMIN_DEFAULT_PASSWORD: admin123
+    ports:
+      - "5050:80"
+    depends_on:
+      - db
+    networks:
+      - ays-net
+
+volumes:
+  postgres-data:
