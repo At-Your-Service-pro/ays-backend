@@ -1,7 +1,7 @@
 import type { Knex } from "knex";
 
 
-exports.up = function (knex) {
+exports.up = async function (knex: Knex) {
     return knex.schema.table('services', (table) => {
       table.integer('service_provider_id').unsigned().notNullable(); // Add foreign key column
       table
@@ -13,7 +13,7 @@ exports.up = function (knex) {
     });
   };
   
-  exports.down = function (knex) {
+exports.down = async function (knex: Knex)  {
     return knex.schema.table('services', (table) => {
       table.dropForeign(['service_provider_id']); // Drop the foreign key
       table.dropColumn('service_provider_id'); // Drop the column

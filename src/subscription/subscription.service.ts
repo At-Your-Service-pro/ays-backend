@@ -26,11 +26,8 @@ export class SubscriptionService {
       );
 
       return response.data.data; // Returns the payment URL and other details
-    } catch (error) {
-      throw new HttpException(
-        error.response?.data?.message || 'Payment initialization failed',
-        HttpStatus.BAD_REQUEST,
-      );
+    } catch (error: any) {
+      console.log(`Payment initialization failed: ${error.message}`)
     }
   }
 
@@ -52,11 +49,8 @@ export class SubscriptionService {
       }
 
       return data; // Contains payment details like amount, status, reference, etc.
-    } catch (error) {
-      throw new HttpException(
-        error.response?.data?.message || 'Payment verification failed',
-        HttpStatus.BAD_REQUEST,
-      );
+    } catch (error: any) {
+      console.log(`Payment verification failed: ${error.message}`)
     }
   }
 

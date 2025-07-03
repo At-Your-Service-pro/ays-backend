@@ -2,10 +2,10 @@ import type { Knex } from "knex";
 
 
 
-export async function up(knex: Knex): Promise<void> {
+exports.up = async function (knex: Knex)  {
     await knex.schema.dropTableIfExists("users");
   }
 
-exports.down = function(knex){
+exports.down = async function (knex: Knex) {
     return knex.schema.dropTableIfExists('users');
 }

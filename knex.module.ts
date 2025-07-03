@@ -1,6 +1,6 @@
 import { Module, Global } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import * as Knex from 'knex';
+import Knex from 'knex';
 
 @Global()
 @Module({

@@ -1,6 +1,6 @@
 import { Knex } from 'knex';
 
-export async function up(knex: Knex): Promise<void> {
+exports.up = async function (knex: Knex) {
   await knex.schema.alterTable('services-providers', (table) => {
     table.string('brandName'); // Change type accordingly
     table.string('phonenumber'); 
@@ -11,7 +11,7 @@ export async function up(knex: Knex): Promise<void> {
   });
 }
 
-export async function down(knex: Knex): Promise<void> {
+exports.down = async function (knex: Knex)  {
   await knex.schema.alterTable('services-providers', (table) => {
     table.string('brandName'); // Change type accordingly
     table.string('phonenumber'); 

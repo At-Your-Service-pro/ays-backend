@@ -1,7 +1,7 @@
 import type { Knex } from "knex";
 
 
-exports.up = function(knex){
+exports.up = async function (knex: Knex) {
     return knex.schema.createTable('users', table => {
         table.increments('id').primary();
         table.string('firstname').notNullable(); 
@@ -16,7 +16,7 @@ exports.up = function(knex){
     });
 }
 
-exports.down = function(knex){
+exports.down = async function (knex: Knex) {
     return knex.schema.dropTable('users');
 }
 

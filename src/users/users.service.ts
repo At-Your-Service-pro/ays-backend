@@ -140,7 +140,7 @@ export class UserService {
         message: 'password updated successfully'
       }
       
-    }catch(err){
+    }catch(err: any){
       return {
         statusCode: 500,
         message: err.message

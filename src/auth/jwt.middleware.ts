@@ -12,7 +12,7 @@ export class JwtMiddleware implements NestMiddleware {
       try {
         const user = this.jwtService.verify(token);
         req.user = user;
-      } catch (error) {
+      } catch (error: any) {
         console.error('Invalid Token:', error.message);
       }
     }

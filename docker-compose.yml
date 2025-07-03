@@ -5,21 +5,7 @@ networks:
     driver: bridge
 
 services:
-  # PostgreSQL Database
-  db:
-    image: postgres:17
-    container_name: ays-db
-    restart: always
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: Emoji@500
-      POSTGRES_DB: AYS-DB
-    volumes:
-      - postgres-data:/var/lib/postgresql/data
-    networks:
-      - ays-net
-
-  # NestJS Backend (with hot-reloading)
+   # NestJS Backend (with hot-reloading)
   backend:
     build:
       context: .
@@ -34,9 +20,32 @@ services:
     env_file:
       - .env
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     networks:
       - ays-net
+    # Add this command to run migrations on startup
+    command: sh -c "npm run knex migrate:latest && npm run start:dev"
+
+  # PostgreSQL Database
+  db:
+    image: postgres:17
+    container_name: ays-db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Emoji@500
+      POSTGRES_DB: AYS-DB
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - ays-net
+    # Add health check to ensure DB is ready before migrations run
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
   # Nginx Reverse Proxy
   nginx:

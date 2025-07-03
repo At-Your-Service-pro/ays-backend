@@ -19,9 +19,13 @@ COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/node_modules ./node_modules
 COPY package*.json ./
 COPY .env ./.env
+COPY src ./src 
+COPY knexfile.js .
 
 COPY wait-for-it.sh ./wait-for-it.sh
 RUN chmod +x wait-for-it.sh
+# RUN chmod +x wait-for-db.sh
+
 
 EXPOSE 3104
-CMD ["./wait-for-it.sh", "db:5432", "--", "node", "dist/src/main"]
+CMD ["./wait-for-it.sh", "db:5432", "--","npx", "knex", "migrate:latest", "--knexfile", "knexfile.js","&&", "node", "dist/src/main"]

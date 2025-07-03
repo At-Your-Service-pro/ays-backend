@@ -1,14 +1,13 @@
 import type { Knex } from "knex";
 
 
-export async function up(knex: Knex): Promise<void> {
+exports.up = async function (knex: Knex)  {
     return knex.schema.table('services',(table) => {
         table.string('category').notNullable()
     })
 }
 
-
-export async function down(knex: Knex): Promise<void> {
+exports.down = async function (knex: Knex)  {
     return knex.schema.table('services', (table) => {
         table.dropColumn('category')
     })
