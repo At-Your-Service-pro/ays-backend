@@ -1,7 +1,6 @@
-import type { Knex } from "knex";
 
-
-exports.up = async function (knex: Knex) {
+/** @type {import('knex').Knex} */
+exports.up = function (knex) {
     return knex.schema.table('services', (table) => {
       table.integer('service_provider_id').unsigned().notNullable(); // Add foreign key column
       table
@@ -12,8 +11,9 @@ exports.up = async function (knex: Knex) {
         .onUpdate('CASCADE'); // Optional: Update foreign key on provider changes
     });
   };
-  
-exports.down = async function (knex: Knex)  {
+
+/** @type {import('knex').Knex} */  
+exports.down = function (knex)  {
     return knex.schema.table('services', (table) => {
       table.dropForeign(['service_provider_id']); // Drop the foreign key
       table.dropColumn('service_provider_id'); // Drop the column

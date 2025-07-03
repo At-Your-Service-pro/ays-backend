@@ -1,6 +1,6 @@
-import type { Knex } from "knex";
 
-exports.up = async function (knex: Knex) {
+/** @type {import('knex').Knex} */
+exports.up = function (knex) {
     return knex.schema.createTable('admin', (table) => {
       table.increments('id').primary(); // Primary key
       table.string('email').notNullable().unique(); // Email column
@@ -13,7 +13,7 @@ exports.up = async function (knex: Knex) {
     });
   };
   
-exports.down = async function (knex: Knex) {
+exports.down =  function (knex) {
     return knex.schema.dropTableIfExists('admin'); // Rollback: Drop the table
   };
   

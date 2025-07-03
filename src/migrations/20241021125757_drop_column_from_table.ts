@@ -1,12 +1,12 @@
-import type { Knex } from "knex";
 
-
-exports.up = async function (knex: Knex) {
+/** @type {import('knex').Knex} */
+exports.up = async function (knex) {
     return knex.schema.table('users', function(table) {
       table.dropColumn('token'); // Replace 'column_name' with the actual column name you want to drop
     });
   };
 
-exports.down = async function (knex: Knex)  {
+/** @type {import('knex').Knex} */
+exports.down = async function (knex)  {
 }
 

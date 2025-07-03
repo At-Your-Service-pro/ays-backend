@@ -1,13 +1,14 @@
-import { Knex } from 'knex';
 
-exports.up = async function (knex: Knex)  {
-  await knex.schema.alterTable('servicesproviders', (table) => {
+/** @type {import('knex').Knex} */
+exports.up = function (knex)  {
+  knex.schema.alterTable('servicesproviders', (table) => {
     table.string('reasonfordecline').defaultTo(''); 
   });
 }
 
-exports.down = async function (knex: Knex)  {
-  await knex.schema.alterTable('servicesproviders', (table) => {
-    table.string('reasonfordecline')
+/** @type {import('knex').Knex} */
+exports.down = function (knex)  {
+  knex.schema.alterTable('servicesproviders', (table) => {
+    table.dropColumn('reasonfordecline')
   });
 }

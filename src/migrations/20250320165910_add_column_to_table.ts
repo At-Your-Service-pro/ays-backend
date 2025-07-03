@@ -1,13 +1,12 @@
-import { Knex } from 'knex';
-
-exports.up = async function (knex: Knex)  {
-  await knex.schema.alterTable('services-providers', (table) => {
+/** @type {import('knex').Knex} */
+exports.up = function (knex)  {
+  knex.schema.alterTable('services-providers', (table) => {
     table.string('category'); 
   });
 }
 
-exports.down = async function (knex: Knex)  {
-  await knex.schema.alterTable('services-providers', (table) => {
+exports.down = function (knex)  {
+  knex.schema.alterTable('services-providers', (table) => {
     table.string('category'); 
   });
 }
