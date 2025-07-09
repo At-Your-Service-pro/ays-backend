@@ -19,6 +19,7 @@ RUN apk add --no-cache bash
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/node_modules ./node_modules
 COPY package*.json ./
+COPY tsconfig.json ./ 
 COPY .env ./.env
 COPY src ./src 
 COPY knexfile.js .
